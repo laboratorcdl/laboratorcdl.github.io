@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://laboratorcdl.github.io/sitemap.xml
+Sitemap: https://laboratorcdl.github.io/image-sitemap.xml
