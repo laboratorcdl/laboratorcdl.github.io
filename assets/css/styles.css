@@ -104,3 +104,111 @@
     height:190px;
   }
 }
+
+
+/* ==========================================================
+   CDL FAZA 6.0 - PATCH VIZUAL PORTOFOLIU
+   Carduri compacte, uniforme si imagini bine incadrate
+   ========================================================== */
+.portfolio-page .section{
+  padding-top:56px;
+  padding-bottom:72px;
+}
+.portfolio-page .portfolio-grid{
+  width:100%;
+  max-width:1180px;
+  margin:0 auto;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+  align-items:stretch;
+}
+.portfolio-page .portfolio-item{
+  display:grid;
+  grid-template-rows:240px auto;
+  min-width:0;
+  min-height:330px;
+  border-radius:24px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:0 16px 42px rgba(13,48,56,.09);
+}
+.portfolio-page .portfolio-item:hover{
+  transform:translateY(-4px);
+  box-shadow:0 24px 58px rgba(13,48,56,.14);
+}
+.portfolio-page .portfolio-item img{
+  width:100%;
+  height:240px;
+  aspect-ratio:auto;
+  object-fit:cover;
+  object-position:center;
+  border-bottom:1px solid var(--line);
+}
+.portfolio-page .portfolio-item figcaption{
+  min-height:90px;
+  padding:18px 20px 19px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+}
+.portfolio-page .portfolio-item strong{
+  font-size:1.02rem;
+  line-height:1.25;
+}
+.portfolio-page .portfolio-item span{
+  line-height:1.35;
+}
+/* Cadrare fina pentru imaginile cu subiect vertical sau tehnic */
+.portfolio-page .portfolio-item:nth-child(3) img,
+.portfolio-page .portfolio-item:nth-child(6) img,
+.portfolio-page .portfolio-item:nth-child(8) img{
+  object-position:center 48%;
+}
+.portfolio-page .portfolio-item:nth-child(16) img{
+  object-position:center 55%;
+}
+@media(max-width:1040px){
+  .portfolio-page .portfolio-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+  }
+  .portfolio-page .portfolio-item{
+    grid-template-rows:230px auto;
+    min-height:320px;
+  }
+  .portfolio-page .portfolio-item img{
+    height:230px;
+  }
+}
+@media(max-width:650px){
+  .portfolio-page .section{
+    padding-top:40px;
+    padding-bottom:56px;
+  }
+  .portfolio-page .portfolio-grid{
+    max-width:520px;
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+  .portfolio-page .portfolio-item{
+    grid-template-rows:205px auto;
+    min-height:0;
+    border-radius:20px;
+  }
+  .portfolio-page .portfolio-item img{
+    height:205px;
+  }
+  .portfolio-page .portfolio-item figcaption{
+    min-height:82px;
+    padding:16px 18px 17px;
+  }
+}
+@media(max-width:390px){
+  .portfolio-page .portfolio-item{
+    grid-template-rows:185px auto;
+  }
+  .portfolio-page .portfolio-item img{
+    height:185px;
+  }
+}
