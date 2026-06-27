@@ -212,3 +212,178 @@
     height:185px;
   }
 }
+
+
+/* ==========================================================
+   CDL FAZA 6.1 - STANDARD VIZUAL GLOBAL PENTRU IMAGINI
+   Fixeaza explicit inaltimea imaginilor si elimina afisarea
+   dupa raportul intrinsec al fisierelor pe telefoane.
+   ========================================================== */
+.hero__visual,
+.page-hero,
+.implant-flow__image{
+  min-width:0;
+}
+.media-standard{
+  display:block;
+  width:100%;
+  max-width:100%;
+  object-fit:cover;
+  object-position:center;
+}
+.hero__visual > .media-standard--hero{
+  height:clamp(390px,38vw,500px);
+  aspect-ratio:auto;
+}
+.page-hero > .media-standard--page-hero{
+  height:clamp(360px,32vw,440px);
+  aspect-ratio:auto;
+}
+.page-hero--compact > .media-standard--page-hero,
+.page-hero--contact > .media-standard--page-hero{
+  height:390px;
+}
+.implant-flow__image > .media-standard--support{
+  height:430px;
+  aspect-ratio:auto;
+}
+.media-standard--contain{
+  object-fit:contain !important;
+  object-position:center !important;
+  padding:clamp(12px,2vw,22px);
+  background:linear-gradient(145deg,#fff,#f4faf9);
+}
+
+/* Fiecare cadru are o dimensiune stabila chiar inainte de
+   descarcarea completa a fotografiei. */
+.hero__visual > img,
+.page-hero > img,
+.implant-flow__image > img,
+.cards-section .image-card img,
+.portfolio-page .portfolio-item img{
+  flex:none;
+}
+
+@media(max-width:1040px){
+  .hero,
+  .page-hero{
+    gap:34px;
+  }
+  .hero__visual > .media-standard--hero,
+  .page-hero > .media-standard--page-hero{
+    width:min(100%,760px);
+    height:clamp(330px,54vw,460px);
+    margin-inline:auto;
+  }
+  .page-hero--compact > .media-standard--page-hero,
+  .page-hero--contact > .media-standard--page-hero{
+    height:clamp(310px,50vw,410px);
+  }
+  .implant-flow__image > .media-standard--support{
+    width:min(100%,720px);
+    height:clamp(330px,54vw,430px);
+    margin-inline:auto;
+  }
+}
+
+@media(max-width:650px){
+  .header__inner{
+    padding:10px 16px;
+    gap:12px;
+  }
+  .brand{
+    min-width:0;
+    gap:10px;
+  }
+  .brand img{
+    width:54px;
+    height:54px;
+    padding:6px;
+    border-radius:16px;
+  }
+  .brand strong{
+    font-size:1rem;
+    line-height:1.15;
+  }
+  .menu-button{
+    padding:9px 13px;
+  }
+  .hero,
+  .page-hero{
+    padding:38px 18px 34px;
+    gap:26px;
+  }
+  .page-hero--dark{
+    padding-left:18px;
+    padding-right:18px;
+  }
+  .hero h1,
+  .page-hero h1{
+    max-width:none;
+    font-size:clamp(2.15rem,10.5vw,2.55rem);
+    line-height:1.02;
+    letter-spacing:-.04em;
+  }
+  .lead,
+  .page-hero p:not(.eyebrow){
+    font-size:1rem;
+    line-height:1.58;
+  }
+  .hero__visual > .media-standard--hero,
+  .page-hero > .media-standard--page-hero,
+  .page-hero--compact > .media-standard--page-hero,
+  .page-hero--contact > .media-standard--page-hero{
+    width:100%;
+    height:270px;
+    margin:0;
+    border-width:7px;
+    border-radius:26px;
+  }
+  .implant-flow{
+    gap:26px;
+  }
+  .implant-flow__image > .media-standard--support{
+    width:100%;
+    height:280px;
+    margin:0;
+    border-radius:24px;
+  }
+  .media-standard--contain{
+    padding:10px;
+  }
+  .section{
+    padding-left:18px;
+    padding-right:18px;
+  }
+  .cards-section{
+    padding-left:18px;
+    padding-right:18px;
+  }
+}
+
+@media(max-width:390px){
+  .hero,
+  .page-hero{
+    padding-left:15px;
+    padding-right:15px;
+  }
+  .page-hero--dark{
+    padding-left:15px;
+    padding-right:15px;
+  }
+  .hero h1,
+  .page-hero h1{
+    font-size:2.05rem;
+  }
+  .hero__visual > .media-standard--hero,
+  .page-hero > .media-standard--page-hero,
+  .page-hero--compact > .media-standard--page-hero,
+  .page-hero--contact > .media-standard--page-hero{
+    height:240px;
+    border-radius:23px;
+  }
+  .implant-flow__image > .media-standard--support{
+    height:250px;
+    border-radius:22px;
+  }
+}
