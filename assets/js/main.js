@@ -120,30 +120,73 @@
     const banner = document.createElement('section');
     banner.className = 'cookie-banner';
     banner.setAttribute('role', 'dialog');
-    banner.setAttribute('aria-live', 'polite');
-    banner.setAttribute('aria-label', 'Preferinte cookie si Google Analytics');
+    banner.setAttribute('aria-modal', 'true');
+    banner.setAttribute('aria-labelledby', 'cookie-consent-title');
+    banner.setAttribute('aria-describedby', 'cookie-consent-description');
     banner.hidden = true;
     banner.innerHTML = `
-      <div class="cookie-banner__inner">
+      <div class="cookie-banner__inner" role="document" tabindex="-1">
         <div class="cookie-banner__text">
-          <strong>Masurare optionala a vizitelor</strong>
-          <p>Folosim Google Analytics numai dupa acceptare, pentru statistici despre pagini, surse de trafic si interactiuni. Site-ul functioneaza la fel daca respingi. <a href="confidentialitate.html">Vezi detaliile</a>.</p>
-          <span class="cookie-banner__status">Alegerea curenta: <b data-consent-status>nealeasa</b></span>
+          <strong id="cookie-consent-title">Cookie-uri de analiza</strong>
+          <p id="cookie-consent-description">Accepti folosirea cookie-urilor de analiza pentru statistici de utilizare?</p>
+          <a href="confidentialitate.html">Detalii</a>
         </div>
         <div class="cookie-banner__actions">
-          <button class="cookie-consent-button cookie-consent-button--reject" data-consent-reject type="button">Respinge</button>
+          <button class="cookie-consent-button cookie-consent-button--reject" data-consent-reject type="button">Refuza</button>
           <button class="cookie-consent-button cookie-consent-button--accept" data-consent-accept type="button">Accepta</button>
         </div>
       </div>`;
     document.body.appendChild(banner);
 
-    const show = () => {
-      updateConsentStatus();
-      banner.hidden = false;
-    };
-    const hide = () => { banner.hidden = true; };
+    const panel = banner.querySelector('.cookie-banner__inner');
+    const rejectButton = banner.querySelector('[data-consent-reject]');
+    const acceptButton = banner.querySelector('[data-consent-accept]');
+    const detailsLink = banner.querySelector('a[href]');
+    let lastFocused = null;
 
-    banner.querySelector('[data-consent-accept]').addEventListener('click', () => {
+    const getFocusable = () => [detailsLink, rejectButton, acceptButton].filter(Boolean);
+
+    const show = () => {
+      lastFocused = document.activeElement;
+      banner.hidden = false;
+      document.body.classList.add('cookie-consent-open');
+      requestAnimationFrame(() => {
+        banner.classList.add('is-open');
+        rejectButton.focus({ preventScroll: true });
+      });
+    };
+
+    const hide = () => {
+      banner.classList.remove('is-open');
+      document.body.classList.remove('cookie-consent-open');
+      window.setTimeout(() => {
+        banner.hidden = true;
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+          lastFocused.focus({ preventScroll: true });
+        }
+      }, 180);
+    };
+
+    banner.addEventListener('keydown', (event) => {
+      if (banner.hidden || event.key !== 'Tab') return;
+      const focusable = getFocusable();
+      if (!focusable.length) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    acceptButton.addEventListener('click', () => {
       writeConsent(CONSENT_GRANTED);
       updateConsentStatus();
       hide();
@@ -151,7 +194,7 @@
       trackEvent('consent_granted', { consent_version: CONSENT_VERSION });
     });
 
-    banner.querySelector('[data-consent-reject]').addEventListener('click', () => {
+    rejectButton.addEventListener('click', () => {
       const wasGranted = readConsent() === CONSENT_GRANTED;
       writeConsent(CONSENT_DENIED);
       disableAnalytics();
