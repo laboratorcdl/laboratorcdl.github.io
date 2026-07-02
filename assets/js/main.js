@@ -2,6 +2,47 @@
   'use strict';
 
   const GA_ID = 'G-LFZ07J97HY';
+
+  const PAGE_LANG = (document.documentElement.lang || 'ro').slice(0, 2);
+  const UI = {
+    ro: {
+      consentAccepted:'acceptata', consentDenied:'respinsa', consentUnset:'nealeasa',
+      cookieTitle:'Cookie-uri de analiza', cookieDescription:'Accepti folosirea cookie-urilor de analiza pentru statistici de utilizare?', cookieDetails:'Detalii', reject:'Refuza', accept:'Accepta',
+      mailSubject:name => `Solicitare colaborare - ${name}`,
+      mailBody:v => `Buna ziua,\n\nDoresc sa discut o posibila colaborare cu Laborator Dentar CDL.\n\nNume medic / clinica: ${v.name}\nTelefon: ${v.phone}\nEmail: ${v.email}\nFlux preferat: ${v.flow}\nMesaj: ${v.message}\n\nNu am inclus date identificabile ale pacientului.\n\nMultumesc.`,
+      lightboxLabel:'Vizualizare fotografie portofoliu', closePhoto:'Inchide fotografia', previousPhoto:'Fotografia precedenta', nextPhoto:'Fotografia urmatoare'
+    },
+    en: {
+      consentAccepted:'accepted', consentDenied:'rejected', consentUnset:'not selected',
+      cookieTitle:'Analytics cookies', cookieDescription:'Do you accept the use of analytics cookies for usage statistics?', cookieDetails:'Details', reject:'Reject', accept:'Accept',
+      mailSubject:name => `Partnership enquiry - ${name}`,
+      mailBody:v => `Hello,\n\nI would like to discuss a possible partnership with Laborator Dentar CDL.\n\nDentist / clinic name: ${v.name}\nPhone: ${v.phone}\nEmail: ${v.email}\nPreferred workflow: ${v.flow}\nMessage: ${v.message}\n\nI have not included identifiable patient data.\n\nThank you.`,
+      lightboxLabel:'Portfolio photograph viewer', closePhoto:'Close photograph', previousPhoto:'Previous photograph', nextPhoto:'Next photograph'
+    },
+    fr: {
+      consentAccepted:'accepté', consentDenied:'refusé', consentUnset:'non sélectionné',
+      cookieTitle:'Cookies de mesure d’audience', cookieDescription:'Acceptez-vous l’utilisation de cookies de mesure d’audience pour les statistiques d’utilisation ?', cookieDetails:'Détails', reject:'Refuser', accept:'Accepter',
+      mailSubject:name => `Demande de collaboration - ${name}`,
+      mailBody:v => `Bonjour,\n\nJe souhaite discuter d’une éventuelle collaboration avec Laborator Dentar CDL.\n\nNom du chirurgien-dentiste / de la clinique : ${v.name}\nTéléphone : ${v.phone}\nE-mail : ${v.email}\nFlux préféré : ${v.flow}\nMessage : ${v.message}\n\nJe n’ai inclus aucune donnée permettant d’identifier un patient.\n\nMerci.`,
+      lightboxLabel:'Visionneuse de photographies du portfolio', closePhoto:'Fermer la photographie', previousPhoto:'Photographie précédente', nextPhoto:'Photographie suivante'
+    },
+    es: {
+      consentAccepted:'aceptado', consentDenied:'rechazado', consentUnset:'sin seleccionar',
+      cookieTitle:'Cookies de analítica', cookieDescription:'¿Acepta el uso de cookies de analítica para obtener estadísticas de uso?', cookieDetails:'Detalles', reject:'Rechazar', accept:'Aceptar',
+      mailSubject:name => `Solicitud de colaboración - ${name}`,
+      mailBody:v => `Hola,\n\nMe gustaría comentar una posible colaboración con Laborator Dentar CDL.\n\nNombre del dentista / clínica: ${v.name}\nTeléfono: ${v.phone}\nCorreo electrónico: ${v.email}\nFlujo preferido: ${v.flow}\nMensaje: ${v.message}\n\nNo he incluido datos identificativos del paciente.\n\nGracias.`,
+      lightboxLabel:'Visor de fotografías del portafolio', closePhoto:'Cerrar fotografía', previousPhoto:'Fotografía anterior', nextPhoto:'Fotografía siguiente'
+    },
+    it: {
+      consentAccepted:'accettato', consentDenied:'rifiutato', consentUnset:'non selezionato',
+      cookieTitle:'Cookie di analisi', cookieDescription:'Accetti l’utilizzo di cookie di analisi per le statistiche di utilizzo?', cookieDetails:'Dettagli', reject:'Rifiuta', accept:'Accetta',
+      mailSubject:name => `Richiesta di collaborazione - ${name}`,
+      mailBody:v => `Buongiorno,\n\nVorrei discutere una possibile collaborazione con Laborator Dentar CDL.\n\nNome del dentista / della clinica: ${v.name}\nTelefono: ${v.phone}\nEmail: ${v.email}\nFlusso preferito: ${v.flow}\nMessaggio: ${v.message}\n\nNon ho incluso dati identificativi del paziente.\n\nGrazie.`,
+      lightboxLabel:'Visualizzatore fotografie del portfolio', closePhoto:'Chiudi fotografia', previousPhoto:'Fotografia precedente', nextPhoto:'Fotografia successiva'
+    }
+  };
+  const ui = UI[PAGE_LANG] || UI.ro;
+
   const CONSENT_KEY = 'cdl_analytics_consent_v1';
   const CONSENT_VERSION = '1';
   const CONSENT_GRANTED = 'granted';
@@ -104,9 +145,9 @@
   window.cdlTrackEvent = trackEvent;
 
   const consentLabel = (choice) => {
-    if (choice === CONSENT_GRANTED) return 'acceptata';
-    if (choice === CONSENT_DENIED) return 'respinsa';
-    return 'nealeasa';
+    if (choice === CONSENT_GRANTED) return ui.consentAccepted;
+    if (choice === CONSENT_DENIED) return ui.consentDenied;
+    return ui.consentUnset;
   };
 
   const updateConsentStatus = () => {
@@ -127,13 +168,13 @@
     banner.innerHTML = `
       <div class="cookie-banner__inner" role="document" tabindex="-1">
         <div class="cookie-banner__text">
-          <strong id="cookie-consent-title">Cookie-uri de analiza</strong>
-          <p id="cookie-consent-description">Accepti folosirea cookie-urilor de analiza pentru statistici de utilizare?</p>
-          <a href="confidentialitate.html">Detalii</a>
+          <strong id="cookie-consent-title">${ui.cookieTitle}</strong>
+          <p id="cookie-consent-description">${ui.cookieDescription}</p>
+          <a href="confidentialitate.html">${ui.cookieDetails}</a>
         </div>
         <div class="cookie-banner__actions">
-          <button class="cookie-consent-button cookie-consent-button--reject" data-consent-reject type="button">Refuza</button>
-          <button class="cookie-consent-button cookie-consent-button--accept" data-consent-accept type="button">Accepta</button>
+          <button class="cookie-consent-button cookie-consent-button--reject" data-consent-reject type="button">${ui.reject}</button>
+          <button class="cookie-consent-button cookie-consent-button--accept" data-consent-accept type="button">${ui.accept}</button>
         </div>
       </div>`;
     document.body.appendChild(banner);
@@ -211,6 +252,25 @@
     return { show, hide };
   };
 
+
+  // Language selector
+  document.querySelectorAll('.language-switcher').forEach((switcher) => {
+    const button = switcher.querySelector('.language-switcher__button');
+    const menu = switcher.querySelector('.language-switcher__menu');
+    if (!button || !menu) return;
+    const close = () => { switcher.classList.remove('is-open'); button.setAttribute('aria-expanded','false'); };
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const opening = !switcher.classList.contains('is-open');
+      document.querySelectorAll('.language-switcher.is-open').forEach((other) => other.classList.remove('is-open'));
+      switcher.classList.toggle('is-open', opening);
+      button.setAttribute('aria-expanded', String(opening));
+      if (opening) menu.querySelector('a')?.focus({preventScroll:true});
+    });
+    switcher.addEventListener('keydown', (event) => { if (event.key === 'Escape') { close(); button.focus(); } });
+    document.addEventListener('click', (event) => { if (!switcher.contains(event.target)) close(); });
+  });
+
   // Navigation menu
   const toggle = document.querySelector('.menu-button');
   const menu = document.querySelector('.menu');
@@ -250,8 +310,9 @@
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const value = (id) => document.getElementById(id).value.trim();
-      const subject = encodeURIComponent(`Solicitare colaborare - ${value('name')}`);
-      const body = encodeURIComponent(`Buna ziua,\n\nDoresc sa discut o posibila colaborare cu Laborator Dentar CDL.\n\nNume medic / clinica: ${value('name')}\nTelefon: ${value('phone')}\nEmail: ${value('email')}\nFlux preferat: ${value('flow')}\nMesaj: ${value('message')}\n\nNu am inclus date identificabile ale pacientului.\n\nMultumesc.`);
+      const formValues = { name:value('name'), phone:value('phone'), email:value('email'), flow:value('flow'), message:value('message') };
+      const subject = encodeURIComponent(ui.mailSubject(formValues.name));
+      const body = encodeURIComponent(ui.mailBody(formValues));
       const mailto = `mailto:laborator.cdl@gmail.com?subject=${subject}&body=${body}`;
       let opened = false;
       const openMail = () => {
@@ -305,12 +366,12 @@
     lightbox.hidden = true;
     lightbox.innerHTML = `
       <div class="portfolio-lightbox__backdrop" data-lightbox-close></div>
-      <div class="portfolio-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Vizualizare fotografie portofoliu">
+      <div class="portfolio-lightbox__dialog" role="dialog" aria-modal="true" aria-label="${ui.lightboxLabel}">
         <div class="portfolio-lightbox__counter" aria-live="polite"></div>
-        <button class="portfolio-lightbox__close" type="button" aria-label="Inchide fotografia" data-lightbox-close>&times;</button>
-        <button class="portfolio-lightbox__nav portfolio-lightbox__prev" type="button" aria-label="Fotografia precedenta">&#8249;</button>
+        <button class="portfolio-lightbox__close" type="button" aria-label="${ui.closePhoto}" data-lightbox-close>&times;</button>
+        <button class="portfolio-lightbox__nav portfolio-lightbox__prev" type="button" aria-label="${ui.previousPhoto}">&#8249;</button>
         <figure class="portfolio-lightbox__figure"><img class="portfolio-lightbox__image" alt="" /></figure>
-        <button class="portfolio-lightbox__nav portfolio-lightbox__next" type="button" aria-label="Fotografia urmatoare">&#8250;</button>
+        <button class="portfolio-lightbox__nav portfolio-lightbox__next" type="button" aria-label="${ui.nextPhoto}">&#8250;</button>
         <figcaption class="portfolio-lightbox__caption"><strong></strong><span></span></figcaption>
       </div>`;
     document.body.appendChild(lightbox);
