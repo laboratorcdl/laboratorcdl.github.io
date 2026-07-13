@@ -907,3 +907,125 @@ body.cookie-consent-open .quick-contact,body.lightbox-open .quick-contact{opacit
   .quick-contact__icon{width:20px;height:20px}
 }
 @media(prefers-reduced-motion:reduce){.quick-contact,.quick-contact__item,.offer-strip .button{transition:none}}
+
+/* ==========================================================
+   CDL v9.1 - PORTOFOLIU SI CONTACT FOOTER
+   Imagini unice pe card, lightbox extins si actiuni de contact clare.
+   ========================================================== */
+.portfolio-lightbox{
+  padding:12px;
+}
+.portfolio-lightbox__dialog{
+  width:min(1500px,96vw);
+  height:min(1000px,95dvh);
+}
+.portfolio-lightbox__figure{
+  padding:58px 8px 10px;
+}
+.portfolio-lightbox__image{
+  width:100%;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  object-fit:contain;
+}
+
+.footer__contact{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.footer__contact .footer-contact__button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:44px;
+  padding:10px 15px;
+  border:1px solid rgba(12,91,96,.18);
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:900;
+  line-height:1;
+  box-shadow:0 8px 22px rgba(13,48,56,.08);
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease,border-color .2s ease;
+}
+.footer__contact .footer-contact__button:hover,
+.footer__contact .footer-contact__button:focus-visible{
+  transform:translateY(-2px);
+  box-shadow:0 12px 28px rgba(13,48,56,.14);
+  outline:none;
+}
+.footer-contact__phone{
+  color:var(--navy) !important;
+  background:#fff;
+}
+.footer-contact__phone:hover,
+.footer-contact__phone:focus-visible{
+  border-color:rgba(12,91,96,.42) !important;
+  background:#f5fbfa !important;
+}
+.footer-contact__whatsapp{
+  color:#fff !important;
+  border-color:#168a5b !important;
+  background:#168a5b;
+}
+.footer-contact__whatsapp:hover,
+.footer-contact__whatsapp:focus-visible{
+  background:#10764d !important;
+  border-color:#10764d !important;
+}
+.footer-contact__icon{
+  width:20px;
+  height:20px;
+  flex:0 0 20px;
+  fill:currentColor;
+}
+.footer-contact__label{
+  color:inherit !important;
+}
+
+@media(max-width:650px){
+  .portfolio-lightbox{
+    padding:0;
+  }
+  .portfolio-lightbox__dialog{
+    width:100%;
+    height:100dvh;
+  }
+  .portfolio-lightbox__figure{
+    padding:64px 4px 8px;
+  }
+  .footer__contact{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    width:100%;
+    max-width:390px;
+    gap:9px;
+  }
+  .footer__contact .footer-contact__button{
+    min-height:48px;
+  }
+  .footer-contact__phone{
+    min-width:0;
+  }
+  .footer-contact__whatsapp{
+    width:48px;
+    padding:0 !important;
+  }
+  .footer-contact__whatsapp .footer-contact__label{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+}
+.footer__contact .footer-contact__button{white-space:nowrap}
+.footer__contact .footer-contact__button span{color:inherit}
