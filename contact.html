@@ -1,3 +1,767 @@
-<!DOCTYPE html>
+:root{--ink:#173238;--navy:#0d3038;--teal:#167e80;--teal2:#0e595d;--aqua:#eaf7f6;--gold:#b7935c;--white:#fff;--muted:#667d81;--line:rgba(14,89,93,.14);--shadow:0 22px 60px rgba(13,48,56,.1);--radius:28px;--max:1220px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,#fbfefe,#f4fbfa 42%,#fff);line-height:1.67;overflow-x:hidden}a{text-decoration:none;color:inherit}img{display:block;max-width:100%}.skip{position:absolute;left:16px;top:-80px;z-index:999;padding:10px 14px;background:#fff0ce;border-radius:10px}.skip:focus{top:16px}.header{position:sticky;top:0;z-index:50;background:rgba(250,253,253,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}.header__inner{max-width:var(--max);margin:auto;padding:13px 20px;display:flex;align-items:center;gap:18px}.brand{display:flex;align-items:center;gap:13px;min-width:270px}.brand img{width:62px;height:62px;object-fit:contain;padding:7px;background:#fff;border:1px solid var(--line);border-radius:18px}.brand strong{display:block;color:var(--navy)}.brand small{display:block;color:var(--muted);font-size:.77rem}.header nav{margin-left:auto}.menu{display:flex;list-style:none;margin:0;padding:0;gap:3px}.menu a{display:inline-flex;padding:9px 12px;border-radius:999px;font-weight:720;color:#3d5a5f;font-size:.93rem}.menu a:hover,.menu a[aria-current="page"]{background:var(--aqua);color:var(--teal2)}.menu-button{display:none}.header-cta,.button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:13px 21px;border-radius:999px;font-weight:850;transition:.2s ease}.header-cta,.primary{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;box-shadow:0 16px 40px rgba(22,126,128,.2)}.header-cta:hover,.button:hover{transform:translateY(-2px)}.secondary{border:1px solid var(--line);background:#fff;color:var(--teal2)}.dark-outline{border:1px solid rgba(255,255,255,.24);color:#fff;background:transparent}.hero{max-width:var(--max);margin:auto;padding:76px 20px 48px;display:grid;grid-template-columns:1.03fr .97fr;gap:52px;align-items:center}.eyebrow{margin:0 0 14px;color:var(--teal);font-size:.76rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase}h1,h2{margin:0;font-family:Georgia,"Times New Roman",serif;line-height:1.06;letter-spacing:-.045em;color:var(--navy)}h1{font-size:clamp(3rem,6vw,5.8rem);max-width:11ch}h2{font-size:clamp(2.2rem,4.5vw,4.15rem)}h3{margin:0;color:var(--navy);line-height:1.15}.lead{margin:22px 0 0;max-width:680px;color:var(--muted);font-size:1.12rem}.actions{display:flex;flex-wrap:wrap;gap:13px;margin-top:29px}.chips,.platforms{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}.chips span,.platforms span{display:inline-flex;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.78);font-weight:700;color:#486368}.hero__visual{position:relative}.hero__visual>img{width:100%;aspect-ratio:16/11;object-fit:cover;border:10px solid #fff;border-radius:38px;box-shadow:0 32px 90px rgba(13,48,56,.18)}.floating-card{position:absolute;right:-18px;bottom:28px;max-width:250px;padding:20px;border-radius:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);box-shadow:var(--shadow)}.floating-card strong{display:block;color:var(--teal2)}.floating-card span{display:block;margin-top:5px;color:var(--muted);font-size:.92rem}.metrics{max-width:var(--max);margin:auto;padding:0 20px 25px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.metrics div,.feature,.image-card,.compact,.portfolio-item,.contact-panel,.contact-form,.faq-grid article{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.metrics div{padding:20px}.metrics strong{display:block;color:var(--navy)}.metrics span{display:block;margin-top:4px;color:var(--muted);font-size:.9rem}.section{max-width:var(--max);margin:auto;padding:82px 20px}.section-heading{max-width:900px}.section-heading.center{text-align:center;margin:auto}.section-heading>p:last-child{margin-top:14px;color:var(--muted)}.feature-grid,.image-cards,.compact-grid,.portfolio-grid,.faq-grid{display:grid;gap:18px;margin-top:36px}.feature-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.feature-grid--four{grid-template-columns:repeat(4,minmax(0,1fr))}.feature{padding:28px}.feature>span{font-family:Georgia,serif;color:var(--teal);font-size:2rem}.feature h3{margin-top:12px}.feature p{margin:11px 0 0;color:var(--muted)}.cards-section{max-width:none;background:linear-gradient(180deg,rgba(234,247,246,.58),rgba(255,255,255,.35));padding-left:max(20px,calc((100vw - var(--max))/2 + 20px));padding-right:max(20px,calc((100vw - var(--max))/2 + 20px))}.image-cards{grid-template-columns:repeat(3,minmax(0,1fr))}.image-card{overflow:hidden;transition:.25s ease}.image-card:hover{transform:translateY(-4px);box-shadow:0 30px 75px rgba(13,48,56,.16)}.image-card img{width:100%;aspect-ratio:4/3;object-fit:cover}.image-card div{padding:24px}.image-card span{color:var(--teal);font-size:.76rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.image-card h3{margin-top:8px}.image-card p{margin:10px 0 0;color:var(--muted)}.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}.split__copy>p:not(.eyebrow){margin-top:18px;color:var(--muted)}.text-link{display:inline-flex;margin-top:18px;color:var(--teal2);font-weight:900}.split__steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.split__steps div{padding:24px;border-radius:22px;border:1px solid var(--line);background:#fff;display:grid;gap:8px}.split__steps strong{font-family:Georgia,serif;color:var(--teal);font-size:2rem}.split__steps span{color:var(--navy);font-weight:800}.cta{padding:78px 20px;background:linear-gradient(145deg,#0d3038,#0a242b);color:#fff}.cta__inner{max-width:var(--max);margin:auto;display:grid;grid-template-columns:1fr auto;gap:35px;align-items:end}.cta h2{color:#fff}.cta__inner>div:last-child{display:flex;gap:12px;flex-wrap:wrap}.page-hero{max-width:var(--max);margin:auto;padding:70px 20px 48px;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}.page-hero h1{max-width:12ch}.page-hero p:not(.eyebrow){margin-top:20px;color:var(--muted);font-size:1.08rem}.page-hero img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:34px;border:9px solid #fff;box-shadow:0 30px 80px rgba(13,48,56,.16)}.page-hero--dark{max-width:none;padding-left:max(20px,calc((100vw - var(--max))/2 + 20px));padding-right:max(20px,calc((100vw - var(--max))/2 + 20px));background:linear-gradient(145deg,#0d3038,#0a242b);color:#fff}.page-hero--dark h1{color:#fff}.page-hero--dark p:not(.eyebrow){color:#c7d6d7}.page-hero--compact img,.page-hero--contact img{aspect-ratio:16/9}.service-list{display:grid;gap:0}.service-row{padding:38px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:.75fr 1.25fr;gap:42px}.service-row>div:first-child span{font-family:Georgia,serif;color:var(--teal);font-size:2.1rem}.service-row>div:last-child p{margin:0;color:var(--muted)}.service-row ul,.check-list{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:9px}.service-row li,.check-list li{position:relative;padding-left:25px;color:var(--muted)}.service-row li:before,.check-list li:before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:900}.compact-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.compact{padding:26px}.compact p{margin:10px 0 0;color:var(--muted)}.implant-flow{display:grid;grid-template-columns:.9fr 1.1fr;gap:45px;align-items:center}.implant-flow__image img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:34px;box-shadow:var(--shadow)}.implant-flow__copy>p:not(.eyebrow){margin-top:16px}.platforms{justify-content:center}.portfolio-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.portfolio-item{margin:0;overflow:hidden;transition:.24s ease}.portfolio-item:hover{transform:translateY(-4px)}.portfolio-item img{width:100%;aspect-ratio:1/1;object-fit:cover}.portfolio-item figcaption{padding:17px;display:grid;gap:3px}.portfolio-item strong{color:var(--navy)}.portfolio-item span{color:var(--muted);font-size:.9rem}.contact-layout{display:grid;grid-template-columns:.82fr 1.18fr;gap:28px}.contact-panel,.contact-form{padding:32px}.contact-panel h2{font-size:2.5rem}.contact-panel ul{list-style:none;margin:25px 0 0;padding:0;display:grid;gap:15px}.contact-panel li{display:grid;gap:4px}.contact-panel li span{color:var(--teal);font-size:.76rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.contact-panel a,.contact-panel strong{color:var(--navy);font-weight:850}.contact-buttons{display:flex;flex-wrap:wrap;gap:11px;margin-top:25px}.contact-form{display:grid;gap:14px}.contact-form h2{font-size:2.4rem}.contact-form label{display:grid;gap:6px;color:#36545a;font-size:.9rem;font-weight:800}.contact-form input,.contact-form select,.contact-form textarea{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--line);font:inherit;color:var(--ink);background:#fbfefe}.contact-form textarea{resize:vertical}.contact-form small{color:var(--muted)}.faq-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.faq-grid article{padding:27px}.faq-grid p{margin:10px 0 0;color:var(--muted)}.footer{max-width:var(--max);margin:auto;padding:34px 20px 46px;display:grid;grid-template-columns:1fr auto auto;gap:20px;align-items:center}.footer strong{display:block;color:var(--navy)}.footer span,.footer small{color:var(--muted)}.footer__links{display:flex;gap:14px;flex-wrap:wrap}.reveal{opacity:0;transform:translateY(22px);transition:.7s ease}.reveal.visible{opacity:1;transform:none}@media(max-width:1040px){.header__inner{flex-wrap:wrap}.header nav{width:100%;order:4}.menu-button{display:inline-flex;margin-left:auto;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--teal2);font-weight:850}.menu{display:none;flex-direction:column}.menu.open{display:flex}.hero,.page-hero,.split,.implant-flow,.contact-layout,.footer{grid-template-columns:1fr}.metrics,.feature-grid,.feature-grid--four,.compact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.image-cards{grid-template-columns:1fr}.portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.floating-card{right:18px}.service-row{grid-template-columns:1fr;gap:18px}.cta__inner{grid-template-columns:1fr}}@media(max-width:650px){.brand small{display:none}.header-cta{display:none}.hero,.page-hero{padding-top:48px}.hero h1,.page-hero h1{font-size:2.8rem}.metrics,.feature-grid,.feature-grid--four,.compact-grid,.portfolio-grid,.faq-grid{grid-template-columns:1fr}.floating-card{position:static;max-width:none;margin-top:12px}.split__steps{grid-template-columns:1fr}.cta__inner>div:last-child{display:grid}.contact-panel,.contact-form{padding:22px}.footer__links{display:none}}
 
-<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="noindex,follow" name="robots"/><link href="../assets/css/styles.css?v=9.8" rel="stylesheet"/><title>Page not found | Laborator Dentar CDL</title><link href="https://laboratorcdl.github.io/en/404.html" rel="canonical"/><link href="https://laboratorcdl.github.io/404.html" hreflang="ro" rel="alternate"/><link href="https://laboratorcdl.github.io/en/404.html" hreflang="en" rel="alternate"/><link href="https://laboratorcdl.github.io/fr/404.html" hreflang="fr" rel="alternate"/><link href="https://laboratorcdl.github.io/es/404.html" hreflang="es" rel="alternate"/><link href="https://laboratorcdl.github.io/it/404.html" hreflang="it" rel="alternate"/><link href="https://laboratorcdl.github.io/404.html" hreflang="x-default" rel="alternate"/><link href="../assets/images/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><link href="../assets/images/favicon-192.png" rel="icon" sizes="192x192" type="image/png"/><meta content="https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp" property="og:image"/><link href="https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp" rel="image_src"/><meta content="1200" property="og:image:width"/><meta content="656" property="og:image:height"/><meta content="https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp" name="twitter:image"/></head><body class="error-page"><main class="error-card"><div class="language-switcher error-language-switcher"><button aria-controls="language-menu" aria-expanded="false" aria-label="Change language" class="language-switcher__button" type="button">🌐 EN</button><ul class="language-switcher__menu" id="language-menu"><li><a href="https://laboratorcdl.github.io/404.html#top" hreflang="ro" lang="ro">Română</a></li><li><a aria-current="true" href="https://laboratorcdl.github.io/en/404.html#top" hreflang="en" lang="en">English</a></li><li><a href="https://laboratorcdl.github.io/fr/404.html#top" hreflang="fr" lang="fr">Français</a></li><li><a href="https://laboratorcdl.github.io/es/404.html#top" hreflang="es" lang="es">Español</a></li><li><a href="https://laboratorcdl.github.io/it/404.html#top" hreflang="it" lang="it">Italiano</a></li></ul></div><p class="eyebrow">Error 404</p><h1>Page not found</h1><p>The address does not exist or the page has been moved.</p><div class="actions"><a class="button primary" href="https://laboratorcdl.github.io/en/#top">Return to the home page</a><a class="button secondary" href="https://laboratorcdl.github.io/en/contact.html#top">Contact</a></div><button class="cookie-settings error-cookie-settings" data-cookie-settings="" type="button">Cookie settings</button></main><script defer="" src="../assets/js/main.js?v=9.8"></script></body></html>
+
+/* ==========================================================
+   CDL FAZA 2.1 - PATCH VIZUAL HOME / DIRECTII DE LUCRU
+   Carduri echilibrate, imagini incadrate si layout responsive
+   ========================================================== */
+.cards-section .image-cards{
+  width:100%;
+  max-width:1180px;
+  margin:36px auto 0;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+}
+.cards-section .image-card{
+  display:grid;
+  grid-template-rows:230px 1fr;
+  min-width:0;
+  min-height:430px;
+  overflow:hidden;
+  border-radius:28px;
+  background:#fff;
+}
+.cards-section .image-card img{
+  width:100%;
+  height:230px;
+  aspect-ratio:auto;
+  object-fit:cover;
+  object-position:center;
+  border-bottom:1px solid var(--line);
+}
+.cards-section .image-card:nth-child(1) img{
+  object-position:center 54%;
+}
+.cards-section .image-card:nth-child(2) img{
+  object-fit:contain;
+  object-position:center;
+  padding:18px;
+  background:linear-gradient(145deg,#fff,#f4faf9);
+}
+.cards-section .image-card:nth-child(3) img{
+  object-position:center 55%;
+}
+.cards-section .image-card>div{
+  min-height:200px;
+  padding:24px 24px 22px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+.cards-section .image-card h3{
+  margin-top:9px;
+  min-height:2.3em;
+  font-size:1.24rem;
+  line-height:1.16;
+}
+.cards-section .image-card p{
+  margin:auto 0 0;
+  padding-top:14px;
+  line-height:1.55;
+}
+
+@media(max-width:1100px){
+  .cards-section .image-cards{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .cards-section .image-card:last-child{
+    grid-column:1 / -1;
+    width:calc((100% - 18px)/2);
+    justify-self:center;
+  }
+}
+
+@media(max-width:720px){
+  .cards-section .image-cards{
+    grid-template-columns:1fr;
+    max-width:560px;
+  }
+  .cards-section .image-card,
+  .cards-section .image-card:last-child{
+    grid-column:auto;
+    width:100%;
+    min-height:0;
+    grid-template-rows:210px auto;
+  }
+  .cards-section .image-card img{
+    height:210px;
+  }
+  .cards-section .image-card>div{
+    min-height:175px;
+    padding:22px;
+  }
+  .cards-section .image-card h3{
+    min-height:0;
+  }
+}
+
+@media(max-width:430px){
+  .cards-section .image-card,
+  .cards-section .image-card:last-child{
+    grid-template-rows:190px auto;
+  }
+  .cards-section .image-card img{
+    height:190px;
+  }
+}
+
+
+/* ==========================================================
+   CDL FAZA 6.0 - PATCH VIZUAL PORTOFOLIU
+   Carduri compacte, uniforme si imagini bine incadrate
+   ========================================================== */
+.portfolio-page .section{
+  padding-top:56px;
+  padding-bottom:72px;
+}
+.portfolio-page .portfolio-grid{
+  width:100%;
+  max-width:1180px;
+  margin:0 auto;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+  align-items:stretch;
+}
+.portfolio-page .portfolio-item{
+  display:grid;
+  grid-template-rows:240px auto;
+  min-width:0;
+  min-height:330px;
+  border-radius:24px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:0 16px 42px rgba(13,48,56,.09);
+}
+.portfolio-page .portfolio-item:hover{
+  transform:translateY(-4px);
+  box-shadow:0 24px 58px rgba(13,48,56,.14);
+}
+.portfolio-page .portfolio-item img{
+  width:100%;
+  height:240px;
+  aspect-ratio:auto;
+  object-fit:cover;
+  object-position:center;
+  border-bottom:1px solid var(--line);
+}
+.portfolio-page .portfolio-item figcaption{
+  min-height:90px;
+  padding:18px 20px 19px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+}
+.portfolio-page .portfolio-item strong{
+  font-size:1.02rem;
+  line-height:1.25;
+}
+.portfolio-page .portfolio-item span{
+  line-height:1.35;
+}
+/* Cadrare fina pentru imaginile cu subiect vertical sau tehnic */
+.portfolio-page .portfolio-item:nth-child(3) img,
+.portfolio-page .portfolio-item:nth-child(6) img,
+.portfolio-page .portfolio-item:nth-child(8) img{
+  object-position:center 48%;
+}
+.portfolio-page .portfolio-item:nth-child(16) img{
+  object-position:center 55%;
+}
+@media(max-width:1040px){
+  .portfolio-page .portfolio-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+  }
+  .portfolio-page .portfolio-item{
+    grid-template-rows:230px auto;
+    min-height:320px;
+  }
+  .portfolio-page .portfolio-item img{
+    height:230px;
+  }
+}
+@media(max-width:650px){
+  .portfolio-page .section{
+    padding-top:40px;
+    padding-bottom:56px;
+  }
+  .portfolio-page .portfolio-grid{
+    max-width:520px;
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+  .portfolio-page .portfolio-item{
+    grid-template-rows:205px auto;
+    min-height:0;
+    border-radius:20px;
+  }
+  .portfolio-page .portfolio-item img{
+    height:205px;
+  }
+  .portfolio-page .portfolio-item figcaption{
+    min-height:82px;
+    padding:16px 18px 17px;
+  }
+}
+@media(max-width:390px){
+  .portfolio-page .portfolio-item{
+    grid-template-rows:185px auto;
+  }
+  .portfolio-page .portfolio-item img{
+    height:185px;
+  }
+}
+
+
+/* ==========================================================
+   CDL FAZA 6.1 - STANDARD VIZUAL GLOBAL PENTRU IMAGINI
+   Fixeaza explicit inaltimea imaginilor si elimina afisarea
+   dupa raportul intrinsec al fisierelor pe telefoane.
+   ========================================================== */
+.hero__visual,
+.page-hero,
+.implant-flow__image{
+  min-width:0;
+}
+.media-standard{
+  display:block;
+  width:100%;
+  max-width:100%;
+  object-fit:cover;
+  object-position:center;
+}
+.hero__visual > .media-standard--hero{
+  height:clamp(390px,38vw,500px);
+  aspect-ratio:auto;
+}
+.page-hero > .media-standard--page-hero{
+  height:clamp(360px,32vw,440px);
+  aspect-ratio:auto;
+}
+.page-hero--compact > .media-standard--page-hero,
+.page-hero--contact > .media-standard--page-hero{
+  height:390px;
+}
+.implant-flow__image > .media-standard--support{
+  height:430px;
+  aspect-ratio:auto;
+}
+.media-standard--contain{
+  object-fit:contain !important;
+  object-position:center !important;
+  padding:clamp(12px,2vw,22px);
+  background:linear-gradient(145deg,#fff,#f4faf9);
+}
+
+/* Fiecare cadru are o dimensiune stabila chiar inainte de
+   descarcarea completa a fotografiei. */
+.hero__visual > img,
+.page-hero > img,
+.implant-flow__image > img,
+.cards-section .image-card img,
+.portfolio-page .portfolio-item img{
+  flex:none;
+}
+
+@media(max-width:1040px){
+  .hero,
+  .page-hero{
+    gap:34px;
+  }
+  .hero__visual > .media-standard--hero,
+  .page-hero > .media-standard--page-hero{
+    width:min(100%,760px);
+    height:clamp(330px,54vw,460px);
+    margin-inline:auto;
+  }
+  .page-hero--compact > .media-standard--page-hero,
+  .page-hero--contact > .media-standard--page-hero{
+    height:clamp(310px,50vw,410px);
+  }
+  .implant-flow__image > .media-standard--support{
+    width:min(100%,720px);
+    height:clamp(330px,54vw,430px);
+    margin-inline:auto;
+  }
+}
+
+@media(max-width:650px){
+  .header__inner{
+    padding:10px 16px;
+    gap:12px;
+  }
+  .brand{
+    min-width:0;
+    gap:10px;
+  }
+  .brand img{
+    width:54px;
+    height:54px;
+    padding:6px;
+    border-radius:16px;
+  }
+  .brand strong{
+    font-size:1rem;
+    line-height:1.15;
+  }
+  .menu-button{
+    padding:9px 13px;
+  }
+  .hero,
+  .page-hero{
+    padding:38px 18px 34px;
+    gap:26px;
+  }
+  .page-hero--dark{
+    padding-left:18px;
+    padding-right:18px;
+  }
+  .hero h1,
+  .page-hero h1{
+    max-width:none;
+    font-size:clamp(2.15rem,10.5vw,2.55rem);
+    line-height:1.02;
+    letter-spacing:-.04em;
+  }
+  .lead,
+  .page-hero p:not(.eyebrow){
+    font-size:1rem;
+    line-height:1.58;
+  }
+  .hero__visual > .media-standard--hero,
+  .page-hero > .media-standard--page-hero,
+  .page-hero--compact > .media-standard--page-hero,
+  .page-hero--contact > .media-standard--page-hero{
+    width:100%;
+    height:270px;
+    margin:0;
+    border-width:7px;
+    border-radius:26px;
+  }
+  .implant-flow{
+    gap:26px;
+  }
+  .implant-flow__image > .media-standard--support{
+    width:100%;
+    height:280px;
+    margin:0;
+    border-radius:24px;
+  }
+  .media-standard--contain{
+    padding:10px;
+  }
+  .section{
+    padding-left:18px;
+    padding-right:18px;
+  }
+  .cards-section{
+    padding-left:18px;
+    padding-right:18px;
+  }
+}
+
+@media(max-width:390px){
+  .hero,
+  .page-hero{
+    padding-left:15px;
+    padding-right:15px;
+  }
+  .page-hero--dark{
+    padding-left:15px;
+    padding-right:15px;
+  }
+  .hero h1,
+  .page-hero h1{
+    font-size:2.05rem;
+  }
+  .hero__visual > .media-standard--hero,
+  .page-hero > .media-standard--page-hero,
+  .page-hero--compact > .media-standard--page-hero,
+  .page-hero--contact > .media-standard--page-hero{
+    height:240px;
+    border-radius:23px;
+  }
+  .implant-flow__image > .media-standard--support{
+    height:250px;
+    border-radius:22px;
+  }
+}
+
+/* ==========================================================
+   CDL FAZA 6.2 - LIGHTBOX PORTOFOLIU
+   Click/tap pe fotografie pentru vizualizare completa.
+   ========================================================== */
+.portfolio-page .portfolio-open{
+  position:relative;
+  display:block;
+  width:100%;
+  height:240px;
+  overflow:hidden;
+  color:inherit;
+  background:#eef6f5;
+  cursor:zoom-in;
+  outline:none;
+}
+.portfolio-page .portfolio-open img{
+  display:block;
+  width:100%;
+  height:100%;
+  transition:transform .35s ease,filter .35s ease;
+}
+.portfolio-page .portfolio-open:hover img,
+.portfolio-page .portfolio-open:focus-visible img{
+  transform:scale(1.025);
+  filter:brightness(.88);
+}
+.portfolio-page .portfolio-open:focus-visible{
+  box-shadow:inset 0 0 0 4px #20a5a1;
+}
+.portfolio-open__hint{
+  position:absolute;
+  left:50%;
+  bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 13px;
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:999px;
+  color:#fff;
+  background:rgba(4,34,41,.78);
+  box-shadow:0 9px 25px rgba(0,0,0,.18);
+  font-size:.82rem;
+  font-weight:850;
+  line-height:1;
+  white-space:nowrap;
+  opacity:0;
+  transform:translate(-50%,8px);
+  transition:opacity .25s ease,transform .25s ease;
+  pointer-events:none;
+  backdrop-filter:blur(8px);
+}
+.portfolio-open__icon{
+  display:grid;
+  place-items:center;
+  width:20px;
+  height:20px;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:50%;
+  font-size:1rem;
+  font-weight:500;
+}
+.portfolio-open:hover .portfolio-open__hint,
+.portfolio-open:focus-visible .portfolio-open__hint{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+body.lightbox-open{
+  overflow:hidden;
+  touch-action:none;
+}
+.portfolio-lightbox[hidden]{
+  display:none !important;
+}
+.portfolio-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  opacity:0;
+  transition:opacity .22s ease;
+}
+.portfolio-lightbox.is-open{
+  opacity:1;
+}
+.portfolio-lightbox__backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(2,17,21,.94);
+  backdrop-filter:blur(8px);
+}
+.portfolio-lightbox__dialog{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr) 52px;
+  grid-template-rows:minmax(0,1fr) auto;
+  align-items:center;
+  width:min(1180px,100%);
+  height:min(92dvh,900px);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:24px;
+  background:rgba(7,35,41,.92);
+  box-shadow:0 28px 80px rgba(0,0,0,.48);
+  overflow:hidden;
+}
+.portfolio-lightbox__figure{
+  grid-column:2;
+  grid-row:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  min-height:0;
+  margin:0;
+  padding:58px 12px 12px;
+}
+.portfolio-lightbox__image{
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:14px;
+  box-shadow:0 16px 44px rgba(0,0,0,.34);
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.portfolio-lightbox__caption{
+  grid-column:1 / -1;
+  grid-row:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:76px;
+  padding:14px 84px 18px;
+  color:#dbe9e8;
+  text-align:center;
+}
+.portfolio-lightbox__caption strong{
+  color:#fff;
+  font-size:1.05rem;
+}
+.portfolio-lightbox__caption span{
+  color:#adc7c5;
+}
+.portfolio-lightbox__counter{
+  position:absolute;
+  left:18px;
+  top:18px;
+  z-index:2;
+  padding:7px 11px;
+  border-radius:999px;
+  color:#e8f2f1;
+  background:rgba(255,255,255,.1);
+  font-size:.78rem;
+  font-weight:800;
+}
+.portfolio-lightbox__close,
+.portfolio-lightbox__nav{
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.22);
+  color:#fff;
+  background:rgba(255,255,255,.1);
+  cursor:pointer;
+  transition:background .2s ease,transform .2s ease,border-color .2s ease;
+}
+.portfolio-lightbox__close:hover,
+.portfolio-lightbox__close:focus-visible,
+.portfolio-lightbox__nav:hover,
+.portfolio-lightbox__nav:focus-visible{
+  background:rgba(32,165,161,.72);
+  border-color:rgba(255,255,255,.6);
+  outline:none;
+}
+.portfolio-lightbox__close{
+  position:absolute;
+  right:16px;
+  top:16px;
+  z-index:3;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  font-size:1.65rem;
+  line-height:1;
+}
+.portfolio-lightbox__nav{
+  z-index:2;
+  width:42px;
+  height:52px;
+  margin:auto;
+  border-radius:15px;
+  font-size:2rem;
+  line-height:1;
+}
+.portfolio-lightbox__prev{
+  grid-column:1;
+  grid-row:1;
+}
+.portfolio-lightbox__next{
+  grid-column:3;
+  grid-row:1;
+}
+.portfolio-lightbox__nav:active,
+.portfolio-lightbox__close:active{
+  transform:scale(.95);
+}
+
+@media(max-width:1040px){
+  .portfolio-page .portfolio-open{
+    height:230px;
+  }
+}
+@media(max-width:650px){
+  .portfolio-page .portfolio-open{
+    height:205px;
+  }
+  .portfolio-open__hint{
+    bottom:12px;
+    opacity:1;
+    transform:translate(-50%,0);
+    padding:8px 11px;
+    background:rgba(4,34,41,.68);
+  }
+  .portfolio-lightbox{
+    padding:0;
+  }
+  .portfolio-lightbox__dialog{
+    width:100%;
+    height:100dvh;
+    grid-template-columns:48px minmax(0,1fr) 48px;
+    border:0;
+    border-radius:0;
+  }
+  .portfolio-lightbox__figure{
+    padding:64px 6px 8px;
+  }
+  .portfolio-lightbox__image{
+    border-radius:10px;
+  }
+  .portfolio-lightbox__caption{
+    min-height:88px;
+    padding:12px 52px calc(16px + env(safe-area-inset-bottom));
+    flex-direction:column;
+    gap:3px;
+  }
+  .portfolio-lightbox__caption strong{
+    font-size:.98rem;
+  }
+  .portfolio-lightbox__caption span{
+    font-size:.86rem;
+  }
+  .portfolio-lightbox__close{
+    right:12px;
+    top:calc(12px + env(safe-area-inset-top));
+  }
+  .portfolio-lightbox__counter{
+    left:12px;
+    top:calc(14px + env(safe-area-inset-top));
+  }
+  .portfolio-lightbox__nav{
+    width:38px;
+    height:50px;
+    border-radius:13px;
+    background:rgba(0,0,0,.32);
+  }
+}
+@media(max-width:390px){
+  .portfolio-page .portfolio-open{
+    height:185px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .portfolio-lightbox,
+  .portfolio-open__hint,
+  .portfolio-page .portfolio-open img{
+    transition:none;
+  }
+}
+
+
+/* ==========================================================
+   CDL FAZA 7.0 - GOOGLE ANALYTICS, CONSIMTAMANT SI CONFIDENTIALITATE
+   ========================================================== */
+.cookie-settings{
+  appearance:none;
+  border:0;
+  background:transparent;
+  color:inherit;
+  font:inherit;
+  padding:0;
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.cookie-settings:hover,.cookie-settings:focus-visible{opacity:.78}
+.cookie-banner[hidden]{display:none!important}
+.cookie-banner{
+  position:fixed;
+  z-index:5000;
+  left:18px;
+  right:18px;
+  bottom:18px;
+  max-width:980px;
+  margin-inline:auto;
+  color:#163d42;
+  background:rgba(255,255,255,.98);
+  border:1px solid rgba(25,92,96,.18);
+  border-radius:22px;
+  box-shadow:0 22px 70px rgba(5,42,49,.27);
+  backdrop-filter:blur(14px);
+}
+.cookie-banner__inner{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:22px;
+  align-items:center;
+  padding:20px 22px;
+}
+.cookie-banner__text strong{display:block;font-size:1.08rem;margin-bottom:5px}
+.cookie-banner__text p{margin:0;line-height:1.55;color:#516b6f;font-size:.94rem}
+.cookie-banner__text a{color:#176f74;font-weight:700}
+.cookie-banner__actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.cookie-consent-button{
+  min-width:116px;
+  border:1px solid #176f74;
+  border-radius:999px;
+  padding:11px 17px;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+}
+.cookie-consent-button--reject{background:#fff;color:#176f74}
+.cookie-consent-button--accept{background:#176f74;color:#fff}
+.cookie-consent-button:hover,.cookie-consent-button:focus-visible{transform:translateY(-1px);box-shadow:0 8px 20px rgba(23,111,116,.18)}
+.cookie-banner__status{display:block;margin-top:7px;font-size:.8rem;color:#6b7f82}
+
+.privacy-hero{padding:76px 24px 44px;background:linear-gradient(180deg,#f7fbfb,#edf7f6)}
+.privacy-shell{width:min(100%,980px);margin-inline:auto}
+.privacy-hero h1{max-width:850px;margin:.3em 0;font-size:clamp(2.3rem,6vw,4.8rem);line-height:.98;color:#103f46}
+.privacy-updated{margin-top:18px;color:#687d80;font-size:.92rem}
+.privacy-content{padding:30px 24px 90px;background:#f7fbfb}
+.privacy-grid{display:grid;gap:18px}
+.privacy-grid article{background:#fff;border:1px solid rgba(19,83,88,.1);border-radius:22px;padding:clamp(22px,4vw,34px);box-shadow:0 12px 36px rgba(7,48,54,.07)}
+.privacy-grid h2{margin:0 0 12px;color:#164f55;font-size:clamp(1.3rem,3vw,1.75rem)}
+.privacy-grid p,.privacy-grid li{color:#536d70;line-height:1.72}
+.privacy-grid ul{padding-left:1.25rem}
+.privacy-grid a{color:#176f74;font-weight:700}
+.privacy-grid code{padding:2px 6px;border-radius:6px;background:#edf5f4;color:#164f55}
+.privacy-consent-box{margin-top:18px;padding:18px;border-radius:16px;background:#edf7f6}
+.privacy-consent-box p{margin-top:0}
+
+.error-page{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#0b343c,#17636a);color:#fff}
+.error-card{width:min(100%,700px);text-align:center;padding:clamp(34px,7vw,70px);border-radius:30px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);box-shadow:0 24px 80px rgba(0,0,0,.24)}
+.error-card h1{font-size:clamp(2.2rem,7vw,4.7rem);margin:.15em 0}
+.error-card p{font-size:1.08rem;line-height:1.6}
+.error-card .actions{justify-content:center}
+.error-cookie-settings{display:inline-block;margin-top:22px;color:#fff}
+
+@media(max-width:760px){
+  .cookie-banner{left:10px;right:10px;bottom:10px;border-radius:18px}
+  .cookie-banner__inner{grid-template-columns:1fr;gap:15px;padding:17px}
+  .cookie-banner__actions{display:grid;grid-template-columns:1fr 1fr;width:100%}
+  .cookie-consent-button{width:100%;min-width:0}
+  .privacy-hero{padding:48px 18px 30px}
+  .privacy-content{padding:18px 14px 70px}
+}
+@media(max-width:390px){
+  .cookie-banner__actions{grid-template-columns:1fr}
+}

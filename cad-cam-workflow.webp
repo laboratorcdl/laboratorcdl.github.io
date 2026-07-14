@@ -1,0 +1,57 @@
+name: Deploy CDL multilingual site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare complete multilingual website
+        shell: bash
+        run: |
+          rm -rf _site
+          mkdir -p _site
+          rsync -av --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='_site/' \
+            --exclude='*.zip' \
+            --exclude='*.md' \
+            ./ _site/
+          touch _site/.nojekyll
+          test -f _site/index.html
+          test -f _site/servicii.html
+          test -f _site/en/index.html
+          test -f _site/fr/index.html
+          test -f _site/es/index.html
+          test -f _site/it/index.html
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./_site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
