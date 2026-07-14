@@ -1233,3 +1233,33 @@ body.cookie-consent-open .quick-contact,body.lightbox-open .quick-contact{opacit
     border-radius:12px;
   }
 }
+
+
+/* ==========================================================
+   CDL v9.7 - OFERTA ALINIATA CU CONTINUTUL PRINCIPAL
+   Textul incepe pe aceeasi axa cu sectiunea "Despre CDL" la
+   desktop, tableta si mobil. Banda are margini intentionate,
+   fara aspect de card deplasat spre stanga.
+   ========================================================== */
+.offer-strip{
+  width:100%;
+  max-width:var(--max);
+  margin:34px auto 26px;
+  padding:38px 20px;
+  border-left:0;
+  border-right:0;
+  border-radius:0;
+  box-shadow:none;
+}
+@media(max-width:650px){
+  .offer-strip{
+    width:100%;
+    margin:24px auto 20px;
+    padding:30px 18px;
+    gap:18px;
+  }
+  .offer-strip .button{
+    width:100%;
+    max-width:100%;
+  }
+}
