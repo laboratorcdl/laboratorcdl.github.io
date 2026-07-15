@@ -10,40 +10,35 @@
       cookieTitle:'Cookie-uri de analiza', cookieDescription:'Accepti folosirea cookie-urilor de analiza pentru statistici de utilizare?', cookieDetails:'Detalii', reject:'Refuza', accept:'Accepta',
       mailSubject:name => `Solicitare colaborare - ${name}`,
       mailBody:v => `Buna ziua,\n\nDoresc sa discut o posibila colaborare cu Laborator Dentar CDL.\n\nNume medic / clinica: ${v.name}\nTelefon: ${v.phone}\nEmail: ${v.email}\nFlux preferat: ${v.flow}\nMesaj: ${v.message}\n\nNu am inclus date identificabile ale pacientului.\n\nMultumesc.`,
-      lightboxLabel:'Vizualizare fotografie portofoliu', closePhoto:'Inchide fotografia', previousPhoto:'Fotografia precedenta', nextPhoto:'Fotografia urmatoare',
-      whatsappMessage:'Buna ziua, doresc informatii despre o posibila colaborare cu Laboratorul Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Suna', quickContactLabel:'Contact rapid pentru colaborari'
+      lightboxLabel:'Vizualizare fotografie portofoliu', closePhoto:'Inchide fotografia', previousPhoto:'Fotografia precedenta', nextPhoto:'Fotografia urmatoare'
     },
     en: {
       consentAccepted:'accepted', consentDenied:'rejected', consentUnset:'not selected',
       cookieTitle:'Analytics cookies', cookieDescription:'Do you accept the use of analytics cookies for usage statistics?', cookieDetails:'Details', reject:'Reject', accept:'Accept',
       mailSubject:name => `Partnership enquiry - ${name}`,
       mailBody:v => `Hello,\n\nI would like to discuss a possible partnership with Laborator Dentar CDL.\n\nDentist / clinic name: ${v.name}\nPhone: ${v.phone}\nEmail: ${v.email}\nPreferred workflow: ${v.flow}\nMessage: ${v.message}\n\nI have not included identifiable patient data.\n\nThank you.`,
-      lightboxLabel:'Portfolio photograph viewer', closePhoto:'Close photograph', previousPhoto:'Previous photograph', nextPhoto:'Next photograph',
-      whatsappMessage:'Hello, I would like information about a possible partnership with Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Call', quickContactLabel:'Quick partnership contact'
+      lightboxLabel:'Portfolio photograph viewer', closePhoto:'Close photograph', previousPhoto:'Previous photograph', nextPhoto:'Next photograph'
     },
     fr: {
       consentAccepted:'accepté', consentDenied:'refusé', consentUnset:'non sélectionné',
       cookieTitle:'Cookies de mesure d’audience', cookieDescription:'Acceptez-vous l’utilisation de cookies de mesure d’audience pour les statistiques d’utilisation ?', cookieDetails:'Détails', reject:'Refuser', accept:'Accepter',
       mailSubject:name => `Demande de collaboration - ${name}`,
       mailBody:v => `Bonjour,\n\nJe souhaite discuter d’une éventuelle collaboration avec Laborator Dentar CDL.\n\nNom du chirurgien-dentiste / de la clinique : ${v.name}\nTéléphone : ${v.phone}\nE-mail : ${v.email}\nFlux préféré : ${v.flow}\nMessage : ${v.message}\n\nJe n’ai inclus aucune donnée permettant d’identifier un patient.\n\nMerci.`,
-      lightboxLabel:'Visionneuse de photographies du portfolio', closePhoto:'Fermer la photographie', previousPhoto:'Photographie précédente', nextPhoto:'Photographie suivante',
-      whatsappMessage:'Bonjour, je souhaite obtenir des informations sur une éventuelle collaboration avec Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Appeler', quickContactLabel:'Contact rapide pour une collaboration'
+      lightboxLabel:'Visionneuse de photographies du portfolio', closePhoto:'Fermer la photographie', previousPhoto:'Photographie précédente', nextPhoto:'Photographie suivante'
     },
     es: {
       consentAccepted:'aceptado', consentDenied:'rechazado', consentUnset:'sin seleccionar',
       cookieTitle:'Cookies de analítica', cookieDescription:'¿Acepta el uso de cookies de analítica para obtener estadísticas de uso?', cookieDetails:'Detalles', reject:'Rechazar', accept:'Aceptar',
       mailSubject:name => `Solicitud de colaboración - ${name}`,
       mailBody:v => `Hola,\n\nMe gustaría comentar una posible colaboración con Laborator Dentar CDL.\n\nNombre del dentista / clínica: ${v.name}\nTeléfono: ${v.phone}\nCorreo electrónico: ${v.email}\nFlujo preferido: ${v.flow}\nMensaje: ${v.message}\n\nNo he incluido datos identificativos del paciente.\n\nGracias.`,
-      lightboxLabel:'Visor de fotografías del portafolio', closePhoto:'Cerrar fotografía', previousPhoto:'Fotografía anterior', nextPhoto:'Fotografía siguiente',
-      whatsappMessage:'Hola, deseo información sobre una posible colaboración con Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Llamar', quickContactLabel:'Contacto rápido para colaboraciones'
+      lightboxLabel:'Visor de fotografías del portafolio', closePhoto:'Cerrar fotografía', previousPhoto:'Fotografía anterior', nextPhoto:'Fotografía siguiente'
     },
     it: {
       consentAccepted:'accettato', consentDenied:'rifiutato', consentUnset:'non selezionato',
       cookieTitle:'Cookie di analisi', cookieDescription:'Accetti l’utilizzo di cookie di analisi per le statistiche di utilizzo?', cookieDetails:'Dettagli', reject:'Rifiuta', accept:'Accetta',
       mailSubject:name => `Richiesta di collaborazione - ${name}`,
       mailBody:v => `Buongiorno,\n\nVorrei discutere una possibile collaborazione con Laborator Dentar CDL.\n\nNome del dentista / della clinica: ${v.name}\nTelefono: ${v.phone}\nEmail: ${v.email}\nFlusso preferito: ${v.flow}\nMessaggio: ${v.message}\n\nNon ho incluso dati identificativi del paziente.\n\nGrazie.`,
-      lightboxLabel:'Visualizzatore fotografie del portfolio', closePhoto:'Chiudi fotografia', previousPhoto:'Fotografia precedente', nextPhoto:'Fotografia successiva',
-      whatsappMessage:'Buongiorno, desidero informazioni su una possibile collaborazione con Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Chiama', quickContactLabel:'Contatto rapido per collaborazioni'
+      lightboxLabel:'Visualizzatore fotografie del portfolio', closePhoto:'Chiudi fotografia', previousPhoto:'Fotografia precedente', nextPhoto:'Fotografia successiva'
     }
   };
   const ui = UI[PAGE_LANG] || UI.ro;
@@ -291,30 +286,9 @@
     }));
   }
 
-  // Fast WhatsApp and phone access on desktop and mobile.
-  const createQuickContact = () => {
-    if (document.querySelector('.quick-contact')) return;
-    const whatsappUrl = `https://wa.me/40761088741?text=${encodeURIComponent(ui.whatsappMessage)}`;
-    const contact = document.createElement('aside');
-    contact.className = 'quick-contact';
-    contact.setAttribute('aria-label', ui.quickContactLabel);
-    contact.innerHTML = `
-      <a class="quick-contact__item quick-contact__item--whatsapp" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" data-contact-method="whatsapp" aria-label="${ui.whatsappLabel}">
-        <svg class="quick-contact__icon" width="20" height="20" focusable="false" style="width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;min-width:20px!important;min-height:20px!important;display:block!important;flex:0 0 20px!important;" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.84 9.84 0 0 0-8.43 14.91L2 22l5.22-1.56A9.93 9.93 0 1 0 12.04 2Zm0 17.99a8.12 8.12 0 0 1-4.14-1.13l-.3-.18-3.1.93.96-3.02-.2-.31a8.14 8.14 0 1 1 6.78 3.71Zm4.46-6.09c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.39 1.37.5.58.18 1.1.16 1.51.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28Z"/></svg>
-        <span>${ui.whatsappLabel}</span>
-      </a>
-      <a class="quick-contact__item quick-contact__item--phone" href="tel:+40761088741" data-contact-method="phone" aria-label="${ui.callLabel}">
-        <svg class="quick-contact__icon" width="20" height="20" focusable="false" style="width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;min-width:20px!important;min-height:20px!important;display:block!important;flex:0 0 20px!important;" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg>
-        <span>${ui.callLabel}</span>
-      </a>`;
-    document.body.appendChild(contact);
-    document.body.classList.add('has-quick-contact');
-  };
-
   // Dynamic year
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
-  createQuickContact();
 
   // Reveal animation with fallback
   const reveals = document.querySelectorAll('.reveal');
@@ -371,9 +345,7 @@
     const absolute = link.href || href;
     const label = (link.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 100);
 
-    if (/wa\.me|whatsapp\.com/i.test(absolute)) {
-      trackEvent('contact_click', { method: 'whatsapp', link_text: label });
-    } else if (href.startsWith('tel:')) {
+    if (href.startsWith('tel:')) {
       trackEvent('contact_click', { method: 'phone', link_text: label });
     } else if (href.startsWith('mailto:')) {
       trackEvent('contact_click', { method: 'email', link_text: label });

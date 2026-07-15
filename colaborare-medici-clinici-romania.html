@@ -1,510 +1,140 @@
-(() => {
-  'use strict';
+<!DOCTYPE html>
 
-  const GA_ID = 'G-LFZ07J97HY';
-
-  const PAGE_LANG = (document.documentElement.lang || 'ro').slice(0, 2);
-  const UI = {
-    ro: {
-      consentAccepted:'acceptata', consentDenied:'respinsa', consentUnset:'nealeasa',
-      cookieTitle:'Cookie-uri de analiza', cookieDescription:'Accepti folosirea cookie-urilor de analiza pentru statistici de utilizare?', cookieDetails:'Detalii', reject:'Refuza', accept:'Accepta',
-      mailSubject:name => `Solicitare colaborare - ${name}`,
-      mailBody:v => `Buna ziua,\n\nDoresc sa discut o posibila colaborare cu Laborator Dentar CDL.\n\nNume medic / clinica: ${v.name}\nTelefon: ${v.phone}\nEmail: ${v.email}\nFlux preferat: ${v.flow}\nMesaj: ${v.message}\n\nNu am inclus date identificabile ale pacientului.\n\nMultumesc.`,
-      lightboxLabel:'Vizualizare fotografie portofoliu', closePhoto:'Inchide fotografia', previousPhoto:'Fotografia precedenta', nextPhoto:'Fotografia urmatoare',
-      whatsappMessage:'Buna ziua, doresc informatii despre o posibila colaborare cu Laboratorul Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Suna', quickContactLabel:'Contact rapid pentru colaborari'
-    },
-    en: {
-      consentAccepted:'accepted', consentDenied:'rejected', consentUnset:'not selected',
-      cookieTitle:'Analytics cookies', cookieDescription:'Do you accept the use of analytics cookies for usage statistics?', cookieDetails:'Details', reject:'Reject', accept:'Accept',
-      mailSubject:name => `Partnership enquiry - ${name}`,
-      mailBody:v => `Hello,\n\nI would like to discuss a possible partnership with Laborator Dentar CDL.\n\nDentist / clinic name: ${v.name}\nPhone: ${v.phone}\nEmail: ${v.email}\nPreferred workflow: ${v.flow}\nMessage: ${v.message}\n\nI have not included identifiable patient data.\n\nThank you.`,
-      lightboxLabel:'Portfolio photograph viewer', closePhoto:'Close photograph', previousPhoto:'Previous photograph', nextPhoto:'Next photograph',
-      whatsappMessage:'Hello, I would like information about a possible partnership with Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Call', quickContactLabel:'Quick partnership contact'
-    },
-    fr: {
-      consentAccepted:'accepté', consentDenied:'refusé', consentUnset:'non sélectionné',
-      cookieTitle:'Cookies de mesure d’audience', cookieDescription:'Acceptez-vous l’utilisation de cookies de mesure d’audience pour les statistiques d’utilisation ?', cookieDetails:'Détails', reject:'Refuser', accept:'Accepter',
-      mailSubject:name => `Demande de collaboration - ${name}`,
-      mailBody:v => `Bonjour,\n\nJe souhaite discuter d’une éventuelle collaboration avec Laborator Dentar CDL.\n\nNom du chirurgien-dentiste / de la clinique : ${v.name}\nTéléphone : ${v.phone}\nE-mail : ${v.email}\nFlux préféré : ${v.flow}\nMessage : ${v.message}\n\nJe n’ai inclus aucune donnée permettant d’identifier un patient.\n\nMerci.`,
-      lightboxLabel:'Visionneuse de photographies du portfolio', closePhoto:'Fermer la photographie', previousPhoto:'Photographie précédente', nextPhoto:'Photographie suivante',
-      whatsappMessage:'Bonjour, je souhaite obtenir des informations sur une éventuelle collaboration avec Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Appeler', quickContactLabel:'Contact rapide pour une collaboration'
-    },
-    es: {
-      consentAccepted:'aceptado', consentDenied:'rechazado', consentUnset:'sin seleccionar',
-      cookieTitle:'Cookies de analítica', cookieDescription:'¿Acepta el uso de cookies de analítica para obtener estadísticas de uso?', cookieDetails:'Detalles', reject:'Rechazar', accept:'Aceptar',
-      mailSubject:name => `Solicitud de colaboración - ${name}`,
-      mailBody:v => `Hola,\n\nMe gustaría comentar una posible colaboración con Laborator Dentar CDL.\n\nNombre del dentista / clínica: ${v.name}\nTeléfono: ${v.phone}\nCorreo electrónico: ${v.email}\nFlujo preferido: ${v.flow}\nMensaje: ${v.message}\n\nNo he incluido datos identificativos del paciente.\n\nGracias.`,
-      lightboxLabel:'Visor de fotografías del portafolio', closePhoto:'Cerrar fotografía', previousPhoto:'Fotografía anterior', nextPhoto:'Fotografía siguiente',
-      whatsappMessage:'Hola, deseo información sobre una posible colaboración con Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Llamar', quickContactLabel:'Contacto rápido para colaboraciones'
-    },
-    it: {
-      consentAccepted:'accettato', consentDenied:'rifiutato', consentUnset:'non selezionato',
-      cookieTitle:'Cookie di analisi', cookieDescription:'Accetti l’utilizzo di cookie di analisi per le statistiche di utilizzo?', cookieDetails:'Dettagli', reject:'Rifiuta', accept:'Accetta',
-      mailSubject:name => `Richiesta di collaborazione - ${name}`,
-      mailBody:v => `Buongiorno,\n\nVorrei discutere una possibile collaborazione con Laborator Dentar CDL.\n\nNome del dentista / della clinica: ${v.name}\nTelefono: ${v.phone}\nEmail: ${v.email}\nFlusso preferito: ${v.flow}\nMessaggio: ${v.message}\n\nNon ho incluso dati identificativi del paziente.\n\nGrazie.`,
-      lightboxLabel:'Visualizzatore fotografie del portfolio', closePhoto:'Chiudi fotografia', previousPhoto:'Fotografia precedente', nextPhoto:'Fotografia successiva',
-      whatsappMessage:'Buongiorno, desidero informazioni su una possibile collaborazione con Laborator Dentar CDL.', whatsappLabel:'WhatsApp', callLabel:'Chiama', quickContactLabel:'Contatto rapido per collaborazioni'
-    }
-  };
-  const ui = UI[PAGE_LANG] || UI.ro;
-
-  const CONSENT_KEY = 'cdl_analytics_consent_v1';
-  const CONSENT_VERSION = '1';
-  const CONSENT_GRANTED = 'granted';
-  const CONSENT_DENIED = 'denied';
-  let analyticsLoaded = false;
-
-  const safeStorage = {
-    get(key) { try { return window.localStorage.getItem(key); } catch (_) { return null; } },
-    set(key, value) { try { window.localStorage.setItem(key, value); return true; } catch (_) { return false; } }
-  };
-
-  const readConsent = () => {
-    const raw = safeStorage.get(CONSENT_KEY);
-    if (!raw) return null;
-    try {
-      const value = JSON.parse(raw);
-      return value && value.version === CONSENT_VERSION ? value.choice : null;
-    } catch (_) {
-      return raw === CONSENT_GRANTED || raw === CONSENT_DENIED ? raw : null;
-    }
-  };
-
-  const writeConsent = (choice) => safeStorage.set(CONSENT_KEY, JSON.stringify({
-    choice,
-    version: CONSENT_VERSION,
-    updatedAt: new Date().toISOString()
-  }));
-
-  const defineGtag = () => {
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
-  };
-
-  const loadAnalytics = () => {
-    if (analyticsLoaded || readConsent() !== CONSENT_GRANTED) return;
-    analyticsLoaded = true;
-    defineGtag();
-
-    window.gtag('consent', 'default', {
-      analytics_storage: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      functionality_storage: 'granted',
-      security_storage: 'granted',
-      wait_for_update: 500
-    });
-    window.gtag('consent', 'update', {
-      analytics_storage: 'granted',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied'
-    });
-    window.gtag('js', new Date());
-    window.gtag('config', GA_ID, {
-      allow_google_signals: false,
-      allow_ad_personalization_signals: false,
-      cookie_update: true,
-      transport_type: 'beacon'
-    });
-
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_ID)}`;
-    script.dataset.cdlAnalytics = 'true';
-    document.head.appendChild(script);
-  };
-
-  const deleteCookie = (name) => {
-    const host = window.location.hostname;
-    const domains = ['', host, `.${host}`];
-    domains.forEach((domain) => {
-      const domainPart = domain ? `; Domain=${domain}` : '';
-      document.cookie = `${name}=; Max-Age=0; Path=/${domainPart}; SameSite=Lax`;
-    });
-  };
-
-  const disableAnalytics = () => {
-    if (window.gtag) {
-      window.gtag('consent', 'update', {
-        analytics_storage: 'denied',
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied'
-      });
-    }
-    deleteCookie('_ga');
-    deleteCookie(`_ga_${GA_ID.replace(/^G-/, '')}`);
-  };
-
-  const trackEvent = (name, params = {}) => {
-    if (readConsent() !== CONSENT_GRANTED) return;
-    loadAnalytics();
-    if (!window.gtag) return;
-    window.gtag('event', name, {
-      page_path: window.location.pathname,
-      ...params
-    });
-  };
-  window.cdlTrackEvent = trackEvent;
-
-  const consentLabel = (choice) => {
-    if (choice === CONSENT_GRANTED) return ui.consentAccepted;
-    if (choice === CONSENT_DENIED) return ui.consentDenied;
-    return ui.consentUnset;
-  };
-
-  const updateConsentStatus = () => {
-    const text = consentLabel(readConsent());
-    document.querySelectorAll('[data-consent-status]').forEach((element) => {
-      element.textContent = text;
-    });
-  };
-
-  const createConsentBanner = () => {
-    const banner = document.createElement('section');
-    banner.className = 'cookie-banner';
-    banner.setAttribute('role', 'dialog');
-    banner.setAttribute('aria-modal', 'true');
-    banner.setAttribute('aria-labelledby', 'cookie-consent-title');
-    banner.setAttribute('aria-describedby', 'cookie-consent-description');
-    banner.hidden = true;
-    banner.innerHTML = `
-      <div class="cookie-banner__inner" role="document" tabindex="-1">
-        <div class="cookie-banner__text">
-          <strong id="cookie-consent-title">${ui.cookieTitle}</strong>
-          <p id="cookie-consent-description">${ui.cookieDescription}</p>
-          <a href="confidentialitate.html">${ui.cookieDetails}</a>
-        </div>
-        <div class="cookie-banner__actions">
-          <button class="cookie-consent-button cookie-consent-button--reject" data-consent-reject type="button">${ui.reject}</button>
-          <button class="cookie-consent-button cookie-consent-button--accept" data-consent-accept type="button">${ui.accept}</button>
-        </div>
-      </div>`;
-    document.body.appendChild(banner);
-
-    const panel = banner.querySelector('.cookie-banner__inner');
-    const rejectButton = banner.querySelector('[data-consent-reject]');
-    const acceptButton = banner.querySelector('[data-consent-accept]');
-    const detailsLink = banner.querySelector('a[href]');
-    let lastFocused = null;
-
-    const getFocusable = () => [detailsLink, rejectButton, acceptButton].filter(Boolean);
-
-    const show = () => {
-      lastFocused = document.activeElement;
-      banner.hidden = false;
-      document.body.classList.add('cookie-consent-open');
-      requestAnimationFrame(() => {
-        banner.classList.add('is-open');
-        rejectButton.focus({ preventScroll: true });
-      });
-    };
-
-    const hide = () => {
-      banner.classList.remove('is-open');
-      document.body.classList.remove('cookie-consent-open');
-      window.setTimeout(() => {
-        banner.hidden = true;
-        if (lastFocused && typeof lastFocused.focus === 'function') {
-          lastFocused.focus({ preventScroll: true });
+<html lang="ro"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="#123768" name="theme-color"/><meta content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" name="robots"/><link href="assets/images/favicon.svg" rel="icon" type="image/svg+xml"/><link href="assets/css/styles.css?v=11.0" rel="stylesheet"/><title>Colaborare laborator dentar B2B Romania | CDL</title><meta content="Colaborare cu medici si clinici din Bucuresti si Romania: amprente clasice, fisiere STL, curier, primul caz si oferta actuala." name="description"/><link href="https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html" rel="canonical"/><link href="https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html" hreflang="ro" rel="alternate"/><link href="https://laboratorcdl.github.io/en/colaborare-medici-clinici-romania.html" hreflang="en" rel="alternate"/><link href="https://laboratorcdl.github.io/fr/colaborare-medici-clinici-romania.html" hreflang="fr" rel="alternate"/><link href="https://laboratorcdl.github.io/es/colaborare-medici-clinici-romania.html" hreflang="es" rel="alternate"/><link href="https://laboratorcdl.github.io/it/colaborare-medici-clinici-romania.html" hreflang="it" rel="alternate"/><link href="https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html" hreflang="x-default" rel="alternate"/><meta content="website" property="og:type"/><meta content="ro_RO" property="og:locale"/><meta content="en_GB" property="og:locale:alternate"/><meta content="fr_FR" property="og:locale:alternate"/><meta content="es_ES" property="og:locale:alternate"/><meta content="it_IT" property="og:locale:alternate"/><meta content="Colaborare laborator dentar B2B Romania | CDL" property="og:title"/><meta content="Colaborare cu medici si clinici din Bucuresti si Romania: amprente clasice, fisiere STL, curier, primul caz si oferta actuala." property="og:description"/><meta content="https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp" property="og:image"/><link href="https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp" rel="image_src"/><meta content="Laborator Dentar CDL" property="og:site_name"/><meta content="https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html" property="og:url"/><meta content="Protetica dentara fixa si mobila, CAD/CAM si solutii pe implanturi." property="og:image:alt"/><meta content="summary_large_image" name="twitter:card"/><meta content="Colaborare laborator dentar B2B Romania | CDL" name="twitter:title"/><meta content="Colaborare cu medici si clinici din Bucuresti si Romania: amprente clasice, fisiere STL, curier, primul caz si oferta actuala." name="twitter:description"/><meta content="https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp" name="twitter:image"/><meta content="1200" property="og:image:width"/><meta content="656" property="og:image:height"/><meta content="Protetica dentara fixa si mobila, CAD/CAM si solutii pe implanturi." name="twitter:image:alt"/><link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon"/><link href="site.webmanifest" rel="manifest"/><link href="assets/images/favicon-192.png" rel="icon" sizes="192x192" type="image/png"/><meta content="telephone=no" name="format-detection"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://laboratorcdl.github.io/#organization",
+      "name": "Laborator Dentar CDL",
+      "alternateName": [
+        "CDL",
+        "Laborator CDL"
+      ],
+      "url": "https://laboratorcdl.github.io/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://laboratorcdl.github.io/assets/images/logo-cdl-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp",
+        "width": 1200,
+        "height": 630
+      },
+      "description": "Laborator dentar B2B pentru medici si clinici: protetica fixa si mobila, flux clasic sau digital STL/CAD-CAM si solutii pe implanturi.",
+      "foundingDate": "2013",
+      "telephone": "+40761088741",
+      "email": "laborator.cdl@gmail.com",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Bucharest"
+        },
+        {
+          "@type": "Country",
+          "name": "Romania"
         }
-      }, 180);
-    };
-
-    banner.addEventListener('keydown', (event) => {
-      if (banner.hidden || event.key !== 'Tab') return;
-      const focusable = getFocusable();
-      if (!focusable.length) {
-        event.preventDefault();
-        panel.focus();
-        return;
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+40761088741",
+        "email": "laborator.cdl@gmail.com",
+        "contactType": "professional partnerships",
+        "availableLanguage": [
+          "ro",
+          "en",
+          "fr",
+          "es",
+          "it"
+        ]
+      },
+      "sameAs": [
+        "https://www.facebook.com/LaboratorTehnicaDentaraCD/"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html#webpage",
+      "url": "https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html",
+      "name": "Colaborare laborator dentar B2B Romania | CDL",
+      "description": "Colaborare cu medici si clinici din Bucuresti si Romania: amprente clasice, fisiere STL, curier, primul caz si oferta actuala.",
+      "inLanguage": "ro-RO",
+      "isPartOf": {
+        "@id": "https://laboratorcdl.github.io/#website"
+      },
+      "about": {
+        "@id": "https://laboratorcdl.github.io/#organization"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://laboratorcdl.github.io/assets/images/laborator-tehnica-dentara-bucuresti.webp",
+        "width": 1200,
+        "height": 630
+      },
+      "mainEntity": {
+        "@id": "https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html#service"
       }
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Acasa",
+          "item": "https://laboratorcdl.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Colaborare B2B",
+          "item": "https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html"
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html#service",
+      "name": "Colaborare B2B",
+      "description": "Colaborare cu medici si clinici din Bucuresti si Romania: amprente clasice, fisiere STL, curier, primul caz si oferta actuala.",
+      "provider": {
+        "@id": "https://laboratorcdl.github.io/#organization"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Bucharest"
+        },
+        {
+          "@type": "Country",
+          "name": "Romania"
+        }
+      ],
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Dentists, dental practices and dental clinics"
+      },
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "servicePhone": {
+          "@type": "ContactPoint",
+          "telephone": "+40761088741"
+        },
+        "serviceUrl": "https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html"
       }
-    });
-
-    acceptButton.addEventListener('click', () => {
-      writeConsent(CONSENT_GRANTED);
-      updateConsentStatus();
-      hide();
-      loadAnalytics();
-      trackEvent('consent_granted', { consent_version: CONSENT_VERSION });
-    });
-
-    rejectButton.addEventListener('click', () => {
-      const wasGranted = readConsent() === CONSENT_GRANTED;
-      writeConsent(CONSENT_DENIED);
-      disableAnalytics();
-      updateConsentStatus();
-      hide();
-      if (wasGranted) window.location.reload();
-    });
-
-    document.querySelectorAll('[data-cookie-settings]').forEach((button) => {
-      button.addEventListener('click', show);
-    });
-
-    if (!readConsent()) show();
-    return { show, hide };
-  };
-
-
-  // Language selector
-  document.querySelectorAll('.language-switcher').forEach((switcher) => {
-    const button = switcher.querySelector('.language-switcher__button');
-    const menu = switcher.querySelector('.language-switcher__menu');
-    if (!button || !menu) return;
-    const close = () => { switcher.classList.remove('is-open'); button.setAttribute('aria-expanded','false'); };
-    button.addEventListener('click', (event) => {
-      event.stopPropagation();
-      const opening = !switcher.classList.contains('is-open');
-      document.querySelectorAll('.language-switcher.is-open').forEach((other) => other.classList.remove('is-open'));
-      switcher.classList.toggle('is-open', opening);
-      button.setAttribute('aria-expanded', String(opening));
-      if (opening) menu.querySelector('a')?.focus({preventScroll:true});
-    });
-    switcher.addEventListener('keydown', (event) => { if (event.key === 'Escape') { close(); button.focus(); } });
-    document.addEventListener('click', (event) => { if (!switcher.contains(event.target)) close(); });
-  });
-
-  // Navigation menu
-  const toggle = document.querySelector('.menu-button');
-  const menu = document.querySelector('.menu');
-  if (toggle && menu) {
-    toggle.addEventListener('click', () => {
-      const open = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!open));
-      menu.classList.toggle('open');
-    });
-    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-      menu.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    }));
-  }
-
-  // Fast WhatsApp and phone access on desktop and mobile.
-  const createQuickContact = () => {
-    if (document.querySelector('.quick-contact')) return;
-    const whatsappUrl = `https://wa.me/40761088741?text=${encodeURIComponent(ui.whatsappMessage)}`;
-    const contact = document.createElement('aside');
-    contact.className = 'quick-contact';
-    contact.setAttribute('aria-label', ui.quickContactLabel);
-    contact.innerHTML = `
-      <a class="quick-contact__item quick-contact__item--whatsapp" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" data-contact-method="whatsapp" aria-label="${ui.whatsappLabel}">
-        <svg class="quick-contact__icon" width="20" height="20" focusable="false" style="width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;min-width:20px!important;min-height:20px!important;display:block!important;flex:0 0 20px!important;" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.84 9.84 0 0 0-8.43 14.91L2 22l5.22-1.56A9.93 9.93 0 1 0 12.04 2Zm0 17.99a8.12 8.12 0 0 1-4.14-1.13l-.3-.18-3.1.93.96-3.02-.2-.31a8.14 8.14 0 1 1 6.78 3.71Zm4.46-6.09c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.39 1.37.5.58.18 1.1.16 1.51.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28Z"/></svg>
-        <span>${ui.whatsappLabel}</span>
-      </a>
-      <a class="quick-contact__item quick-contact__item--phone" href="tel:+40761088741" data-contact-method="phone" aria-label="${ui.callLabel}">
-        <svg class="quick-contact__icon" width="20" height="20" focusable="false" style="width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;min-width:20px!important;min-height:20px!important;display:block!important;flex:0 0 20px!important;" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg>
-        <span>${ui.callLabel}</span>
-      </a>`;
-    document.body.appendChild(contact);
-    document.body.classList.add('has-quick-contact');
-  };
-
-  // Dynamic year
-  const year = document.getElementById('year');
-  if (year) year.textContent = new Date().getFullYear();
-  createQuickContact();
-
-  // Reveal animation with fallback
-  const reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    }), { threshold: 0.12 });
-    reveals.forEach((element) => observer.observe(element));
-  } else {
-    reveals.forEach((element) => element.classList.add('visible'));
-  }
-
-  // Contact form: no data is stored by the website.
-  const form = document.getElementById('contactForm');
-  if (form) {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const value = (id) => document.getElementById(id).value.trim();
-      const formValues = { name:value('name'), phone:value('phone'), email:value('email'), flow:value('flow'), message:value('message') };
-      const subject = encodeURIComponent(ui.mailSubject(formValues.name));
-      const body = encodeURIComponent(ui.mailBody(formValues));
-      const mailto = `mailto:laborator.cdl@gmail.com?subject=${subject}&body=${body}`;
-      let opened = false;
-      const openMail = () => {
-        if (opened) return;
-        opened = true;
-        window.location.href = mailto;
-      };
-
-      if (readConsent() === CONSENT_GRANTED) {
-        loadAnalytics();
-        window.gtag('event', 'generate_lead', {
-          method: 'email_form',
-          flow_preference: value('flow'),
-          page_path: window.location.pathname,
-          transport_type: 'beacon',
-          event_callback: openMail
-        });
-        window.setTimeout(openMail, 500);
-      } else {
-        openMail();
-      }
-    });
-  }
-
-  // Track only anonymous interaction metadata; never form field values.
-  document.addEventListener('click', (event) => {
-    const link = event.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href') || '';
-    const absolute = link.href || href;
-    const label = (link.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 100);
-
-    if (/wa\.me|whatsapp\.com/i.test(absolute)) {
-      trackEvent('contact_click', { method: 'whatsapp', link_text: label });
-    } else if (href.startsWith('tel:')) {
-      trackEvent('contact_click', { method: 'phone', link_text: label });
-    } else if (href.startsWith('mailto:')) {
-      trackEvent('contact_click', { method: 'email', link_text: label });
-    } else if (/facebook\.com/i.test(absolute)) {
-      trackEvent('social_click', { network: 'facebook', link_url: absolute });
-    } else if (/contact\.html(?:$|[?#])/.test(href) && !/contact\.html$/.test(window.location.pathname)) {
-      trackEvent('contact_page_click', { link_text: label });
     }
-  });
-
-  // Accessible portfolio lightbox
-  (() => {
-    const links = Array.from(document.querySelectorAll('.portfolio-page .portfolio-open'));
-    if (!links.length) return;
-
-    const lightbox = document.createElement('div');
-    lightbox.className = 'portfolio-lightbox';
-    lightbox.hidden = true;
-    lightbox.innerHTML = `
-      <div class="portfolio-lightbox__backdrop" data-lightbox-close></div>
-      <div class="portfolio-lightbox__dialog" role="dialog" aria-modal="true" aria-label="${ui.lightboxLabel}">
-        <div class="portfolio-lightbox__counter" aria-live="polite"></div>
-        <button class="portfolio-lightbox__close" type="button" aria-label="${ui.closePhoto}" data-lightbox-close>&times;</button>
-        <button class="portfolio-lightbox__nav portfolio-lightbox__prev" type="button" aria-label="${ui.previousPhoto}">&#8249;</button>
-        <figure class="portfolio-lightbox__figure"><img class="portfolio-lightbox__image" alt="" /></figure>
-        <button class="portfolio-lightbox__nav portfolio-lightbox__next" type="button" aria-label="${ui.nextPhoto}">&#8250;</button>
-        <figcaption class="portfolio-lightbox__caption"><strong></strong><span></span></figcaption>
-      </div>`;
-    document.body.appendChild(lightbox);
-
-    const image = lightbox.querySelector('.portfolio-lightbox__image');
-    const title = lightbox.querySelector('.portfolio-lightbox__caption strong');
-    const detail = lightbox.querySelector('.portfolio-lightbox__caption span');
-    const counter = lightbox.querySelector('.portfolio-lightbox__counter');
-    const closeButton = lightbox.querySelector('.portfolio-lightbox__close');
-    const prevButton = lightbox.querySelector('.portfolio-lightbox__prev');
-    const nextButton = lightbox.querySelector('.portfolio-lightbox__next');
-    const dialog = lightbox.querySelector('.portfolio-lightbox__dialog');
-    let currentIndex = 0;
-    let lastFocused = null;
-    let touchStartX = 0;
-    let touchStartY = 0;
-    const normaliseIndex = (index) => (index + links.length) % links.length;
-
-    const render = (index) => {
-      currentIndex = normaliseIndex(index);
-      const link = links[currentIndex];
-      const thumbnail = link.querySelector('img');
-      const figure = link.closest('.portfolio-item');
-      const captionTitle = figure ? figure.querySelector('figcaption strong') : null;
-      const captionDetail = figure ? figure.querySelector('figcaption span') : null;
-      image.src = link.href;
-      image.alt = thumbnail ? thumbnail.alt : '';
-      title.textContent = captionTitle ? captionTitle.textContent.trim() : image.alt;
-      detail.textContent = captionDetail ? captionDetail.textContent.trim() : '';
-      detail.hidden = !detail.textContent;
-      counter.textContent = `${currentIndex + 1} / ${links.length}`;
-    };
-
-    const openLightbox = (index, source) => {
-      lastFocused = source || document.activeElement;
-      render(index);
-      lightbox.hidden = false;
-      document.body.classList.add('lightbox-open');
-      requestAnimationFrame(() => {
-        lightbox.classList.add('is-open');
-        closeButton.focus({ preventScroll: true });
-      });
-      const figure = links[index].closest('.portfolio-item');
-      const caption = figure ? figure.querySelector('figcaption strong') : null;
-      trackEvent('portfolio_image_open', {
-        image_index: index + 1,
-        image_title: caption ? caption.textContent.trim() : ''
-      });
-    };
-
-    const closeLightbox = () => {
-      lightbox.classList.remove('is-open');
-      document.body.classList.remove('lightbox-open');
-      window.setTimeout(() => {
-        lightbox.hidden = true;
-        image.removeAttribute('src');
-        if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus({ preventScroll: true });
-      }, 220);
-    };
-
-    links.forEach((link, index) => link.addEventListener('click', (event) => {
-      event.preventDefault();
-      openLightbox(index, link);
-    }));
-    prevButton.addEventListener('click', () => render(currentIndex - 1));
-    nextButton.addEventListener('click', () => render(currentIndex + 1));
-    lightbox.querySelectorAll('[data-lightbox-close]').forEach((element) => element.addEventListener('click', closeLightbox));
-
-    document.addEventListener('keydown', (event) => {
-      if (lightbox.hidden) return;
-      if (event.key === 'Escape') closeLightbox();
-      if (event.key === 'ArrowLeft') render(currentIndex - 1);
-      if (event.key === 'ArrowRight') render(currentIndex + 1);
-      if (event.key === 'Tab') {
-        const focusable = [closeButton, prevButton, nextButton];
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-      }
-    });
-
-    dialog.addEventListener('touchstart', (event) => {
-      if (event.touches.length !== 1) return;
-      touchStartX = event.touches[0].clientX;
-      touchStartY = event.touches[0].clientY;
-    }, { passive: true });
-    dialog.addEventListener('touchend', (event) => {
-      if (event.changedTouches.length !== 1) return;
-      const deltaX = event.changedTouches[0].clientX - touchStartX;
-      const deltaY = event.changedTouches[0].clientY - touchStartY;
-      if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
-        render(deltaX > 0 ? currentIndex - 1 : currentIndex + 1);
-      }
-    }, { passive: true });
-  })();
-
-  createConsentBanner();
-  updateConsentStatus();
-  if (readConsent() === CONSENT_GRANTED) loadAnalytics();
-
-  window.addEventListener('storage', (event) => {
-    if (event.key !== CONSENT_KEY) return;
-    updateConsentStatus();
-    if (readConsent() === CONSENT_GRANTED) loadAnalytics();
-    else window.location.reload();
-  });
-})();
+  ]
+}</script></head><body class="page-collaboration"><a class="skip" href="#main">Sari la continut</a><header class="header" id="top"><div class="header__inner"><a class="brand" data-nav="home" href="https://laboratorcdl.github.io/#top"><img alt="Laborator Dentar CDL" decoding="async" height="64" src="assets/images/logo-cdl.png" width="64"/><span><strong>Laborator Dentar CDL</strong><small>Protetica dentara · CAD/CAM · Implanturi</small></span></a><button aria-controls="menu" aria-expanded="false" class="menu-button">Meniu</button><nav aria-label="Navigatie principala"><ul class="menu" id="menu"><li><a data-nav="home" href="https://laboratorcdl.github.io/#top">Acasa</a></li><li><a data-nav="services" href="https://laboratorcdl.github.io/servicii.html#top">Servicii</a></li><li><a data-nav="implants" href="https://laboratorcdl.github.io/implanturi.html#top">Implanturi</a></li><li><a data-nav="portfolio" href="https://laboratorcdl.github.io/portofoliu.html#top">Portofoliu</a></li><li><a aria-current="page" data-nav="contact" href="https://laboratorcdl.github.io/contact.html#top">Contact</a></li></ul></nav><div class="language-switcher"><button aria-controls="language-menu" aria-expanded="false" aria-label="Schimbă limba" class="language-switcher__button" type="button">🌐 RO</button><ul class="language-switcher__menu" id="language-menu"><li><a aria-current="true" href="https://laboratorcdl.github.io/colaborare-medici-clinici-romania.html#top" hreflang="ro" lang="ro">Română</a></li><li><a href="https://laboratorcdl.github.io/en/colaborare-medici-clinici-romania.html#top" hreflang="en" lang="en">English</a></li><li><a href="https://laboratorcdl.github.io/fr/colaborare-medici-clinici-romania.html#top" hreflang="fr" lang="fr">Français</a></li><li><a href="https://laboratorcdl.github.io/es/colaborare-medici-clinici-romania.html#top" hreflang="es" lang="es">Español</a></li><li><a href="https://laboratorcdl.github.io/it/colaborare-medici-clinici-romania.html#top" hreflang="it" lang="it">Italiano</a></li></ul></div><a aria-label="Scrie pe WhatsApp" class="header-cta" data-contact-method="whatsapp" href="https://wa.me/40761088741?text=Buna%20ziua%2C%20doresc%20informatii%20despre%20o%20posibila%20colaborare%20cu%20Laboratorul%20Dentar%20CDL." rel="noopener noreferrer" target="_blank">WhatsApp</a></div></header><main id="main">
+<section class="page-hero"><div class="reveal"><p class="eyebrow">Colaborare exclusiv B2B</p><h1>Laborator dentar pentru medici si clinici din Bucuresti si din toata Romania.</h1><p>CDL colaboreaza exclusiv cu profesionisti din medicina dentara. Puteti incepe cu un singur caz, pe amprenta clasica sau in flux digital, cu preluare si livrare in Bucuresti ori expediere prin curier rapid la nivel national.</p></div><img alt="Colaborare intre laborator dentar si medici stomatologi" class="media-standard media-standard--page-hero reveal" decoding="async" fetchpriority="high" height="656" src="assets/images/laborator-tehnica-dentara-bucuresti.webp" width="1200"/></section>
+<section class="section"><div class="section-heading reveal"><p class="eyebrow">Primul caz</p><h2>O colaborare buna incepe cu un flux simplu si informatii complete.</h2></div><div class="feature-grid"><article class="feature reveal"><span>01</span><h3>Discutie initiala</h3><p>Stabilim tipurile de lucrari, modul de transmitere si persoana de contact.</p></article><article class="feature reveal"><span>02</span><h3>Caz pilot</h3><p>Puteti incepe cu un caz potrivit pentru a evalua comunicarea si rezultatul tehnic.</p></article><article class="feature reveal"><span>03</span><h3>Flux constant</h3><p>Dupa primul caz, stabilim modul de preluare, termenele si etapele uzuale.</p></article></div></section>
+<section class="section cards-section"><div class="section-heading center reveal"><p class="eyebrow">Bucuresti si national</p><h2>Transportul se adapteaza zonei si tipului de caz.</h2></div><div class="compact-grid"><article class="compact reveal"><h3>Curier propriu in Bucuresti</h3><p>Preluarea si livrarea se organizeaza in functie de traseu si de programul convenit.</p></article><article class="compact reveal"><h3>Curier rapid national</h3><p>Pentru restul tarii, stabilim ambalarea, identificarea cazului si expedierea.</p></article><article class="compact reveal"><h3>Transfer digital</h3><p>Fisierele STL si informatiile cazului pot fi transmise prin canalul stabilit.</p></article><article class="compact reveal"><h3>Comunicare tehnica</h3><p>Neclaritatile importante sunt discutate inainte de executie, nu dupa finalizare.</p></article></div></section>
+<section class="section"><div class="service-list"><article class="service-row reveal"><div><span>01</span><h2>Pentru cabinete care lucreaza clasic</h2></div><div><p>Primim amprente, modele, antagonisti, ocluzie si indicatii scrise.</p><ul><li>identificarea clara a pacientului prin codul stabilit de cabinet;</li><li>ambalarea sigura a componentelor;</li><li>fisa cu material, nuanta si termen;</li><li>fotografii atunci cand cazul estetic o cere.</li></ul></div></article><article class="service-row reveal"><div><span>02</span><h2>Pentru cabinete cu scanner intraoral</h2></div><div><p>Primim fisiere STL si datele necesare pentru proiectare si productie.</p><ul><li>arcada de lucru, antagonist si ocluzie;</li><li>scan body si platforme pentru implanturi;</li><li>instructiuni tehnice si fotografii relevante;</li><li>confirmarea canalului de transfer.</li></ul><a class="text-link" href="https://laboratorcdl.github.io/cad-cam-stl-scanari-intraorale.html#top">Vezi ghidul pentru fisiere STL →</a></div></article></div></section>
+<section class="section faq"><div class="section-heading center reveal"><p class="eyebrow">Intrebari frecvente</p><h2>Inainte de colaborare.</h2></div><div class="faq-grid"><article class="reveal"><h3>Lucrati direct cu pacientii?</h3><p>Nu. Laborator Dentar CDL lucreaza exclusiv B2B, prin medici, cabinete si clinici stomatologice.</p></article><article class="reveal"><h3>Pot testa colaborarea cu un singur caz?</h3><p>Da. Un caz pilot permite evaluarea concreta a fluxului si comunicarii.</p></article><article class="reveal"><h3>Acceptati cazuri din toata Romania?</h3><p>Da. Colaborarea nationala se organizeaza prin transfer digital si curierat rapid.</p></article><article class="reveal"><h3>Cum aflu termenul?</h3><p>Termenul se discuta in functie de tipul lucrarii, etape si datele complete ale cazului.</p></article></div></section>
+<section aria-label="Oferta pentru colaborari noi" class="offer-strip reveal">
+<div class="offer-strip__copy"><p class="eyebrow">Oferta pentru colaborari noi</p><h2>Incepe cu un prim caz si solicita oferta actuala.</h2><p>Poti evalua concret calitatea lucrarilor, comunicarea si modul nostru de lucru, fara a schimba din prima fluxul clinicii.</p></div>
+<a class="button whatsapp-button" data-contact-method="whatsapp" href="https://wa.me/40761088741?text=Buna%20ziua%2C%20doresc%20informatii%20despre%20o%20posibila%20colaborare%20cu%20Laboratorul%20Dentar%20CDL." rel="noopener noreferrer" target="_blank">Solicita oferta pe WhatsApp</a>
+</section><section class="cta"><div class="cta__inner reveal"><div><p class="eyebrow">Colaborare profesionala</p><h2>Propune un prim caz si stabilim fluxul potrivit.</h2></div><div><a class="button primary" href="https://laboratorcdl.github.io/contact.html#top">Solicita colaborare</a><a class="button dark-outline" href="tel:+40761088741">0761 088 741</a></div></div></section></main><footer class="footer"><div><strong>Laborator Dentar CDL</strong><span>Protetica dentara fixa si mobila, flux clasic si digital STL/CAD-CAM, lucrari pe dinti si implanturi pentru medici si clinici.</span><div class="footer__contact"><a aria-label="Suna Laborator Dentar CDL la 0761 088 741" class="footer-contact__button footer-contact__phone" href="tel:+40761088741"><svg aria-hidden="true" class="footer-contact__icon" focusable="false" height="18" style="width:18px!important;height:18px!important;max-width:18px!important;max-height:18px!important;min-width:18px!important;min-height:18px!important;display:block!important;flex:0 0 18px!important;" viewbox="0 0 24 24" width="18"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.37 2.28.56 3.48.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.55 21 3 13.45 3 4.12a1 1 0 0 1 1-1H7.5a1 1 0 0 1 1 1c0 1.2.19 2.38.56 3.48a1 1 0 0 1-.24 1L6.6 10.8Z"></path></svg><span>0761 088 741</span></a><a aria-label="Deschide WhatsApp pentru colaborare" class="footer-contact__button footer-contact__whatsapp" data-contact-method="whatsapp" href="https://wa.me/40761088741?text=Buna%20ziua%2C%20doresc%20informatii%20despre%20o%20posibila%20colaborare%20cu%20Laboratorul%20Dentar%20CDL." rel="noopener noreferrer" target="_blank"><svg aria-hidden="true" class="footer-contact__icon" focusable="false" height="18" style="width:18px!important;height:18px!important;max-width:18px!important;max-height:18px!important;min-width:18px!important;min-height:18px!important;display:block!important;flex:0 0 18px!important;" viewbox="0 0 24 24" width="18"><path d="M20.52 3.48A11.81 11.81 0 0 0 12.1 0C5.54 0 .2 5.34.2 11.9c0 2.1.55 4.15 1.6 5.95L.1 24l6.3-1.65a11.9 11.9 0 0 0 5.7 1.45h.01C18.67 23.8 24 18.46 24 11.9c0-3.18-1.24-6.17-3.48-8.42ZM12.1 21.8h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.74.98 1-3.64-.24-.37A9.87 9.87 0 0 1 2.2 11.9C2.2 6.44 6.64 2 12.1 2a9.83 9.83 0 0 1 7 2.9 9.84 9.84 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9Zm5.43-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.48a9 9 0 0 1-1.66-2.07c-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z"></path></svg><span class="footer-contact__label">WhatsApp</span></a></div></div><div class="footer__links"><a href="https://laboratorcdl.github.io/servicii.html#top">Servicii</a><a href="https://laboratorcdl.github.io/implanturi.html#top">Implanturi</a><a href="https://laboratorcdl.github.io/portofoliu.html#top">Portofoliu</a><a href="https://laboratorcdl.github.io/contact.html#top">Contact</a><a href="https://laboratorcdl.github.io/confidentialitate.html#top">Confidentialitate</a><button class="cookie-settings" data-cookie-settings="" type="button">Setari cookie</button></div><small>© <span id="year"></span> Laborator Dentar CDL</small></footer><script defer="" src="assets/js/main.js?v=11.0"></script></body></html>
