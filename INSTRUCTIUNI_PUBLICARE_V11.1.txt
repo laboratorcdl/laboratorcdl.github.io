@@ -1,0 +1,13 @@
+LABORATOR DENTAR CDL — V11.1 BLUE VISIBLE
+
+IMPORTANT:
+1. Deschide aceasta arhiva.
+2. Incarca DIRECT continutul ei in radacina repository-ului GitHub, acolo unde se afla index.html.
+3. Nu incarca folderul ca subfolder suplimentar.
+4. Inlocuieste fisierele existente, inclusiv assets/css/styles.css.
+5. Dupa publicare, asteapta finalizarea GitHub Actions si apasa Ctrl+F5.
+
+Verificare rapida:
+- index.html trebuie sa fie in radacina repository-ului;
+- stylesheet-ul trebuie sa aiba URL-ul assets/css/styles.css?v=11.1.0;
+- pe prima pagina trebuie sa vezi hero-ul intr-un card albastru-deschis si benzile albastre puternice.

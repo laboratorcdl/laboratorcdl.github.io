@@ -2,8 +2,7 @@ name: Deploy CDL multilingual site
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -21,10 +20,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-
       - name: Prepare static website
         shell: bash
         run: |
@@ -34,14 +31,10 @@ jobs:
             --exclude='.github/' \
             --exclude='_site/' \
             --exclude='*.zip' \
+            --exclude='AUDIT_*.md' \
             --exclude='GHID_*.md' \
-            --exclude='LISTA_*.txt' \
             ./ _site/
-          find _site -type f -name '*.html' -exec sed -i \
-            -e 's/styles.css?v=8.0/styles.css?v=8.1/g' \
-            -e 's/main.js?v=8.0/main.js?v=8.1/g' {} +
           touch _site/.nojekyll
-
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
