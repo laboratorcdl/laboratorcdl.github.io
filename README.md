@@ -1,6 +1,6 @@
-# Laborator Dentar CDL — website v11.0
+# Laborator Dentar CDL - website v11.0
 
-Site static multilingv pentru Laborator Dentar CDL, optimizat pentru GitHub Pages.
+Site multilingv pentru Laborator Dentar CDL
 
 ## Limbi
 - Romana
@@ -18,4 +18,4 @@ Site static multilingv pentru Laborator Dentar CDL, optimizat pentru GitHub Page
 - sitemap multilingv, manifest PWA si robots.txt;
 - publicare automata prin GitHub Actions.
 
-Versiune vizuala: **CDL Premium Blue v11.0**.
+Versiune vizuala: **CDL Premium Blue**.
