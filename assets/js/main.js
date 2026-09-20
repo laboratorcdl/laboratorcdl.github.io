@@ -480,3 +480,129 @@
     else window.location.reload();
   });
 })();
+
+/* ==========================================================
+   CDL WEB NX1 - HERO SHOWCASE
+   Autoplay, pause, keyboard, dots, swipe, reduced-motion
+   ========================================================== */
+(() => {
+  'use strict';
+
+  const root = document.querySelector('[data-hero-showcase]');
+  if (!root) return;
+
+  const slides = Array.from(root.querySelectorAll('[data-hero-slide]'));
+  const dots = Array.from(root.querySelectorAll('[data-hero-dot]'));
+  const previous = root.querySelector('.hero-showcase__prev');
+  const next = root.querySelector('.hero-showcase__next');
+  const viewport = root.querySelector('.hero-showcase__viewport');
+  if (slides.length < 2 || !previous || !next || !viewport) return;
+
+  const DURATION = 5400;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let current = 0;
+  let timer = 0;
+  let paused = false;
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  root.style.setProperty('--nx-hero-duration', `${DURATION}ms`);
+
+  const normalise = (index) => (index + slides.length) % slides.length;
+
+  const render = (index) => {
+    current = normalise(index);
+    slides.forEach((slide, slideIndex) => {
+      const active = slideIndex === current;
+      slide.classList.toggle('is-active', active);
+      slide.setAttribute('aria-hidden', String(!active));
+    });
+    dots.forEach((dot, dotIndex) => {
+      const active = dotIndex === current;
+      dot.classList.toggle('is-active', active);
+      dot.setAttribute('aria-selected', String(active));
+      dot.tabIndex = active ? 0 : -1;
+    });
+  };
+
+  const restartProgress = () => {
+    root.classList.remove('is-running');
+    void root.offsetWidth;
+    if (!paused && !reduceMotion.matches && !document.hidden) {
+      root.classList.add('is-running');
+    }
+  };
+
+  const stopTimer = () => {
+    if (timer) window.clearTimeout(timer);
+    timer = 0;
+  };
+
+  const schedule = () => {
+    stopTimer();
+    restartProgress();
+    if (paused || reduceMotion.matches || document.hidden) return;
+    timer = window.setTimeout(() => {
+      render(current + 1);
+      schedule();
+    }, DURATION);
+  };
+
+  const go = (index) => {
+    render(index);
+    schedule();
+  };
+
+  const setPaused = (value) => {
+    paused = value;
+    root.classList.toggle('is-paused', paused);
+    if (paused) {
+      stopTimer();
+      root.classList.remove('is-running');
+    } else {
+      schedule();
+    }
+  };
+
+  previous.addEventListener('click', () => go(current - 1));
+  next.addEventListener('click', () => go(current + 1));
+  dots.forEach((dot, index) => dot.addEventListener('click', () => go(index)));
+
+  root.addEventListener('mouseenter', () => setPaused(true));
+  root.addEventListener('mouseleave', () => setPaused(false));
+  root.addEventListener('focusin', () => setPaused(true));
+  root.addEventListener('focusout', (event) => {
+    if (!root.contains(event.relatedTarget)) setPaused(false);
+  });
+
+  root.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      go(current - 1);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      go(current + 1);
+    }
+  });
+
+  viewport.addEventListener('touchstart', (event) => {
+    if (event.touches.length !== 1) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }, { passive: true });
+
+  viewport.addEventListener('touchend', (event) => {
+    if (event.changedTouches.length !== 1) return;
+    const deltaX = event.changedTouches[0].clientX - touchStartX;
+    const deltaY = event.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(deltaX) > 55 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+      go(deltaX > 0 ? current - 1 : current + 1);
+    }
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', schedule);
+  reduceMotion.addEventListener?.('change', schedule);
+
+  render(0);
+  schedule();
+})();
