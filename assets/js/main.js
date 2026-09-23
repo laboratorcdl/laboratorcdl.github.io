@@ -480,3 +480,60 @@
     else window.location.reload();
   });
 })();
+
+// ============================================================
+// CDL SEO COMMERCIAL CLUSTER R1 - accessible service submenus
+// ============================================================
+(() => {
+  'use strict';
+
+  const submenuItems = Array.from(document.querySelectorAll('.menu-item--has-submenu'));
+  if (!submenuItems.length) return;
+
+  const closeItem = (item) => {
+    item.classList.remove('submenu-open');
+    item.querySelector('.submenu-toggle')?.setAttribute('aria-expanded', 'false');
+  };
+
+  const closeAll = (except = null) => {
+    submenuItems.forEach((item) => {
+      if (item !== except) closeItem(item);
+    });
+  };
+
+  submenuItems.forEach((item) => {
+    const toggle = item.querySelector('.submenu-toggle');
+    const submenu = item.querySelector('.submenu');
+    if (!toggle || !submenu) return;
+
+    toggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const opening = !item.classList.contains('submenu-open');
+      closeAll(item);
+      item.classList.toggle('submenu-open', opening);
+      toggle.setAttribute('aria-expanded', String(opening));
+      if (opening && window.matchMedia('(max-width: 1040px)').matches) {
+        submenu.querySelector('a')?.focus({preventScroll:true});
+      }
+    });
+
+    item.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeItem(item);
+        toggle.focus();
+      }
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!submenuItems.some((item) => item.contains(event.target))) closeAll();
+  });
+
+  const mainToggle = document.querySelector('.menu-button');
+  if (mainToggle) {
+    mainToggle.addEventListener('click', () => {
+      if (mainToggle.getAttribute('aria-expanded') === 'false') closeAll();
+    });
+  }
+})();
