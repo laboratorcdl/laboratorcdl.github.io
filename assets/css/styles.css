@@ -1554,15 +1554,22 @@ body{
 .menu-parent{display:flex;align-items:center}
 .menu-parent__link{padding-right:7px!important}
 .submenu-toggle{
-  display:grid;place-items:center;width:28px;height:28px;margin-left:-4px;
-  border:0;border-radius:50%;background:transparent;color:#3d5a5f;
-  font:900 1rem/1 inherit;cursor:pointer;transition:.18s ease
+  display:grid;place-items:center;width:24px;height:24px;margin-left:-2px;padding:0;
+  border:0;border-radius:8px;background:transparent;color:#315678;
+  cursor:pointer;transition:background .18s ease,color .18s ease,transform .18s ease
 }
 .submenu-toggle:hover,.submenu-toggle:focus-visible{
-  background:var(--aqua);color:var(--teal2);outline:2px solid rgba(42,127,190,.18)
+  background:#eaf4ff;color:#15457c;outline:2px solid rgba(42,127,190,.16)
 }
-.submenu-toggle span{display:block;transform:translateY(-1px);transition:transform .18s ease}
-.menu-item--has-submenu.submenu-open .submenu-toggle span{transform:rotate(180deg)}
+.submenu-chevron{
+  display:block;width:7px;height:7px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);
+  transition:transform .18s ease
+}
+.menu-item--has-submenu.submenu-open .submenu-chevron{
+  transform:translateY(2px) rotate(225deg)
+}
 .submenu{
   position:absolute;z-index:120;left:0;top:calc(100% + 10px);
   display:none;min-width:310px;margin:0;padding:10px;list-style:none;
