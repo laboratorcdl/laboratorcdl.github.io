@@ -1,4 +1,4 @@
-# Audit CDL v11.0 — rezultate
+# Audit CDL v11.0 - rezultate
 
 ## Probleme critice reparate
 - 7 pagini romanesti aveau continut gresit sau erau inlocuite cu imagini/JavaScript.
