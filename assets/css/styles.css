@@ -836,6 +836,8 @@ body.cookie-consent-open{overflow:hidden}
 .language-switcher{position:relative;flex:0 0 auto;z-index:80}
 .language-switcher__button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:9px 13px;border:1px solid rgba(20,85,91,.18);border-radius:999px;background:#fff;color:#164f55;font:inherit;font-size:.86rem;font-weight:850;cursor:pointer;box-shadow:0 5px 18px rgba(7,48,54,.06)}
 .language-switcher__button:hover,.language-switcher__button:focus-visible{border-color:#29979a;outline:3px solid rgba(41,151,154,.16);outline-offset:2px}
+.language-switcher__icon{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.language-switcher__code{display:inline-block;line-height:1}
 .language-switcher__menu{position:absolute;right:0;top:calc(100% + 10px);display:none;min-width:190px;margin:0;padding:8px;list-style:none;border:1px solid rgba(20,85,91,.14);border-radius:16px;background:#fff;box-shadow:0 18px 48px rgba(7,48,54,.18)}
 .language-switcher.is-open .language-switcher__menu{display:block}
 .language-switcher__menu a{display:block;padding:10px 12px;border-radius:10px;color:#244f54;font-size:.93rem;font-weight:700;text-decoration:none;white-space:nowrap}
